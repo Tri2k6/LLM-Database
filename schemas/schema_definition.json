@@ -1,0 +1,1110 @@
+{
+  "schema_name": "banking_secure_rag_document_schema",
+  "version": "1.0",
+  "description": "Schema definition for Banking Secure RAG documents using JSON/BSON structure. This schema is designed for Vector NoSQL Databases and supports document-level access control, metadata filtering, and field-level masking.",
+  "case_study": "Banking RAG Assistant for Loan and KYC Document Retrieval",
+  "target_use_cases": [
+    "Vector NoSQL document storage",
+    "RAG document indexing",
+    "Metadata-based pre-filtering",
+    "Document-level access control",
+    "Field-level masking before sending context to LLM",
+    "Query evaluation and ground truth generation"
+  ],
+  "compatible_database_styles": [
+    "MongoDB-like BSON document store",
+    "Qdrant payload-based vector store",
+    "Chroma metadata-based vector store",
+    "Weaviate object-based vector store",
+    "Generic JSONL dataset for vector indexing"
+  ],
+  "global_allowed_values": {
+    "roles": [
+      "teller",
+      "loan_officer",
+      "risk_analyst",
+      "compliance_officer",
+      "branch_manager",
+      "admin"
+    ],
+    "document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report",
+      "policy_document"
+    ],
+    "departments": [
+      "retail",
+      "credit",
+      "risk",
+      "compliance",
+      "operations",
+      "it_security",
+      "management"
+    ],
+    "sensitivity_levels": [
+      "public",
+      "internal",
+      "medium",
+      "high",
+      "restricted"
+    ],
+    "regions": [
+      "HCM",
+      "HN",
+      "DN",
+      "CT",
+      "BD"
+    ],
+    "branch_ids": [
+      "BR_001",
+      "BR_002",
+      "BR_003",
+      "BR_004",
+      "BR_005"
+    ],
+    "source_types": [
+      "business_document",
+      "internal_report",
+      "policy_document",
+      "audit_document",
+      "system_generated_document"
+    ],
+    "original_formats": [
+      "json",
+      "pdf",
+      "text",
+      "csv"
+    ],
+    "retention_levels": [
+      "short_term",
+      "standard",
+      "long_term",
+      "legal_hold"
+    ],
+    "field_actions": [
+      "view",
+      "mask",
+      "deny"
+    ],
+    "default_mask_token": "[MASKED]"
+  },
+  "required_top_level_fields": [
+    "document_id",
+    "document_type",
+    "customer_id",
+    "title",
+    "source",
+    "content",
+    "metadata",
+    "field_policy",
+    "embedding_text",
+    "embedding"
+  ],
+  "top_level_document_schema": {
+    "document_id": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "description": "Unique identifier of the document. Example: loan_001, kyc_001, risk_001.",
+      "examples": [
+        "loan_001",
+        "kyc_001",
+        "credit_001",
+        "risk_001",
+        "note_001",
+        "compliance_001",
+        "policy_001"
+      ]
+    },
+    "document_type": {
+      "type": "string",
+      "required": true,
+      "allowed_values_ref": "global_allowed_values.document_types",
+      "description": "Type of document. This field is used for metadata filtering and query strategy."
+    },
+    "customer_id": {
+      "type": "string",
+      "required": true,
+      "nullable_for_document_types": [
+        "policy_document"
+      ],
+      "description": "Synthetic customer identifier used to connect multiple documents belonging to the same customer. For policy documents, this value can be null.",
+      "examples": [
+        "C10001",
+        "C10002",
+        null
+      ]
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "description": "Short human-readable title of the document.",
+      "examples": [
+        "Loan application of customer C10001",
+        "KYC profile of customer C10001",
+        "Risk assessment of customer C10001"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "required": true,
+      "description": "Information about the original source of the document before being indexed into the Vector NoSQL Database.",
+      "required_fields": [
+        "source_type",
+        "source_name",
+        "original_format",
+        "created_at",
+        "updated_at"
+      ],
+      "fields": {
+        "source_type": {
+          "type": "string",
+          "required": true,
+          "allowed_values_ref": "global_allowed_values.source_types",
+          "description": "Type of the original source."
+        },
+        "source_name": {
+          "type": "string",
+          "required": true,
+          "description": "Name of the source system.",
+          "examples": [
+            "loan_system",
+            "kyc_system",
+            "credit_bureau_system",
+            "risk_management_system",
+            "compliance_system",
+            "internal_policy_repository"
+          ]
+        },
+        "original_format": {
+          "type": "string",
+          "required": true,
+          "allowed_values_ref": "global_allowed_values.original_formats",
+          "description": "Original document format before normalization."
+        },
+        "created_at": {
+          "type": "string",
+          "required": true,
+          "format": "YYYY-MM-DD",
+          "description": "Original creation date of the document."
+        },
+        "updated_at": {
+          "type": "string",
+          "required": true,
+          "format": "YYYY-MM-DD",
+          "description": "Last update date of the document."
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "required": true,
+      "description": "Original business content of the document. The structure depends on document_type.",
+      "document_type_specific": true
+    },
+    "metadata": {
+      "type": "object",
+      "required": true,
+      "description": "Metadata used for document-level access control, metadata filtering, retrieval strategy, and evaluation.",
+      "schema_ref": "metadata_schema"
+    },
+    "field_policy": {
+      "type": "object",
+      "required": true,
+      "description": "Field-level access control policy. It defines which roles can view each field in content.",
+      "schema_ref": "field_policy_schema"
+    },
+    "embedding_text": {
+      "type": "string",
+      "required": true,
+      "description": "Normalized text used to generate vector embedding. It should contain searchable information but should avoid exposing fields that should never be indexed.",
+      "examples": [
+        "Customer C10001 applied for a home loan. KYC status is verified.",
+        "Customer C10001 has a high credit risk level based on overdue payment history."
+      ]
+    },
+    "embedding": {
+      "type": "array|null",
+      "required": true,
+      "description": "Vector embedding generated from embedding_text. Team Dataset can set this field to null. Team Retrieval will generate the actual vector.",
+      "default": null,
+      "example": null
+    }
+  },
+  "metadata_schema": {
+    "description": "Metadata fields used for document-level filtering and permission checking.",
+    "required_fields": [
+      "department",
+      "sensitivity",
+      "document_owner",
+      "allowed_roles",
+      "allowed_departments",
+      "branch_id",
+      "region",
+      "retention_level",
+      "field_policy_ref",
+      "access_tags"
+    ],
+    "fields": {
+      "department": {
+        "type": "string",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.departments",
+        "description": "Department responsible for the document."
+      },
+      "sensitivity": {
+        "type": "string",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.sensitivity_levels",
+        "description": "Sensitivity level of the document."
+      },
+      "document_owner": {
+        "type": "string",
+        "required": true,
+        "description": "Owner department or business unit of the document.",
+        "examples": [
+          "retail_department",
+          "credit_department",
+          "risk_department",
+          "compliance_department",
+          "operations_department",
+          "it_security_department"
+        ]
+      },
+      "allowed_roles": {
+        "type": "array<string>",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.roles",
+        "description": "Roles that can retrieve this document at document level before field masking."
+      },
+      "allowed_departments": {
+        "type": "array<string>",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.departments",
+        "description": "Departments that can access this document."
+      },
+      "branch_id": {
+        "type": "string|null",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.branch_ids",
+        "description": "Branch identifier. For policy documents, this value can be null if the policy applies globally."
+      },
+      "region": {
+        "type": "string",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.regions",
+        "description": "Region where the document belongs."
+      },
+      "retention_level": {
+        "type": "string",
+        "required": true,
+        "allowed_values_ref": "global_allowed_values.retention_levels",
+        "description": "Retention requirement for the document."
+      },
+      "field_policy_ref": {
+        "type": "string",
+        "required": true,
+        "description": "Reference to the policy definition in field_policy_store.json.",
+        "examples": [
+          "policy_loan_application_v1",
+          "policy_kyc_profile_v1",
+          "policy_credit_report_v1",
+          "policy_risk_assessment_v1",
+          "policy_internal_note_v1",
+          "policy_compliance_report_v1",
+          "policy_policy_document_v1"
+        ]
+      },
+      "access_tags": {
+        "type": "array<string>",
+        "required": true,
+        "description": "Tags used for search, filtering, and evaluation.",
+        "examples": [
+          [
+            "loan",
+            "credit",
+            "customer_data"
+          ],
+          [
+            "kyc",
+            "identity",
+            "customer_data"
+          ],
+          [
+            "risk",
+            "credit_score",
+            "restricted"
+          ]
+        ]
+      }
+    }
+  },
+  "field_policy_schema": {
+    "description": "Field-level policy structure. Each key is a field name in content. Each value is a list of roles allowed to view that field.",
+    "type": "object",
+    "key_type": "content_field_name",
+    "value_type": "array<string>",
+    "allowed_role_values_ref": "global_allowed_values.roles",
+    "default_action": "mask",
+    "mask_token": "[MASKED]",
+    "unknown_field_action": "mask",
+    "rules": [
+      "If the user role is included in field_policy[field_name], the field can be shown.",
+      "If the user role is not included in field_policy[field_name], the field must be replaced with [MASKED].",
+      "If a field is not defined in field_policy, the system must follow unknown_field_action.",
+      "Raw content must not be sent to the LLM before field-level masking is applied."
+    ]
+  },
+  "document_type_content_schemas": {
+    "loan_application": {
+      "description": "Loan application submitted by a customer.",
+      "default_department": "credit",
+      "default_sensitivity": "high",
+      "required_content_fields": [
+        "customer_name",
+        "loan_amount",
+        "loan_purpose",
+        "income",
+        "employment_status",
+        "kyc_status"
+      ],
+      "optional_content_fields": [
+        "requested_term_months",
+        "collateral_type",
+        "application_status",
+        "credit_score",
+        "risk_note"
+      ],
+      "content_fields": {
+        "customer_name": {
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Synthetic customer name."
+        },
+        "loan_amount": {
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Requested loan amount in VND."
+        },
+        "loan_purpose": {
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Purpose of the loan."
+        },
+        "income": {
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Monthly income of the customer."
+        },
+        "employment_status": {
+          "type": "string",
+          "sensitivity": "medium",
+          "allowed_values": [
+            "full_time",
+            "part_time",
+            "self_employed",
+            "unemployed",
+            "retired"
+          ]
+        },
+        "kyc_status": {
+          "type": "string",
+          "sensitivity": "medium",
+          "allowed_values": [
+            "verified",
+            "pending",
+            "rejected",
+            "expired"
+          ]
+        },
+        "requested_term_months": {
+          "type": "number",
+          "sensitivity": "medium",
+          "description": "Requested loan term in months."
+        },
+        "collateral_type": {
+          "type": "string",
+          "sensitivity": "medium",
+          "allowed_values": [
+            "none",
+            "house",
+            "car",
+            "savings_account",
+            "business_asset"
+          ]
+        },
+        "application_status": {
+          "type": "string",
+          "sensitivity": "medium",
+          "allowed_values": [
+            "submitted",
+            "under_review",
+            "approved",
+            "rejected"
+          ]
+        },
+        "credit_score": {
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Credit score if included in loan application summary."
+        },
+        "risk_note": {
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Internal risk note attached to the application."
+        }
+      }
+    },
+    "kyc_profile": {
+      "description": "Know Your Customer profile for customer identity verification.",
+      "default_department": "retail",
+      "default_sensitivity": "high",
+      "required_content_fields": [
+        "customer_name",
+        "national_id_masked",
+        "date_of_birth",
+        "address",
+        "kyc_status"
+      ],
+      "optional_content_fields": [
+        "phone_masked",
+        "email_masked",
+        "aml_status",
+        "last_verified_at"
+      ],
+      "content_fields": {
+        "customer_name": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "national_id_masked": {
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Masked national ID. The raw national ID should not be stored in the demo dataset."
+        },
+        "date_of_birth": {
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "high"
+        },
+        "address": {
+          "type": "string",
+          "sensitivity": "high"
+        },
+        "kyc_status": {
+          "type": "string",
+          "sensitivity": "medium",
+          "allowed_values": [
+            "verified",
+            "pending",
+            "rejected",
+            "expired"
+          ]
+        },
+        "phone_masked": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "email_masked": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "aml_status": {
+          "type": "string",
+          "sensitivity": "restricted",
+          "allowed_values": [
+            "clear",
+            "under_review",
+            "flagged"
+          ]
+        },
+        "last_verified_at": {
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium"
+        }
+      }
+    },
+    "credit_report": {
+      "description": "Credit report containing credit score and repayment history.",
+      "default_department": "risk",
+      "default_sensitivity": "high",
+      "required_content_fields": [
+        "customer_name",
+        "credit_score",
+        "debt_ratio",
+        "overdue_count",
+        "credit_history_summary"
+      ],
+      "optional_content_fields": [
+        "active_loans",
+        "total_debt",
+        "last_report_date"
+      ],
+      "content_fields": {
+        "customer_name": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "credit_score": {
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Synthetic credit score."
+        },
+        "debt_ratio": {
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Debt-to-income ratio."
+        },
+        "overdue_count": {
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Number of overdue payments."
+        },
+        "credit_history_summary": {
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Summary of customer credit history."
+        },
+        "active_loans": {
+          "type": "number",
+          "sensitivity": "medium"
+        },
+        "total_debt": {
+          "type": "number",
+          "sensitivity": "high"
+        },
+        "last_report_date": {
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium"
+        }
+      }
+    },
+    "risk_assessment": {
+      "description": "Internal risk assessment report for credit and fraud analysis.",
+      "default_department": "risk",
+      "default_sensitivity": "restricted",
+      "required_content_fields": [
+        "customer_name",
+        "risk_level",
+        "risk_note",
+        "fraud_signal",
+        "analyst_comment"
+      ],
+      "optional_content_fields": [
+        "recommended_action",
+        "risk_score",
+        "reviewed_by"
+      ],
+      "content_fields": {
+        "customer_name": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "risk_level": {
+          "type": "string",
+          "sensitivity": "high",
+          "allowed_values": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "risk_note": {
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Internal note explaining risk factors."
+        },
+        "fraud_signal": {
+          "type": "string",
+          "sensitivity": "restricted",
+          "allowed_values": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "analyst_comment": {
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Comment written by risk analyst."
+        },
+        "recommended_action": {
+          "type": "string",
+          "sensitivity": "high",
+          "allowed_values": [
+            "approve",
+            "manual_review",
+            "reject",
+            "request_more_documents"
+          ]
+        },
+        "risk_score": {
+          "type": "number",
+          "sensitivity": "high"
+        },
+        "reviewed_by": {
+          "type": "string",
+          "sensitivity": "medium"
+        }
+      }
+    },
+    "internal_note": {
+      "description": "Internal operational note written by staff.",
+      "default_department": "operations",
+      "default_sensitivity": "restricted",
+      "required_content_fields": [
+        "customer_name",
+        "staff_note",
+        "escalation_reason",
+        "internal_decision"
+      ],
+      "optional_content_fields": [
+        "created_by",
+        "follow_up_required",
+        "follow_up_date"
+      ],
+      "content_fields": {
+        "customer_name": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "staff_note": {
+          "type": "string",
+          "sensitivity": "restricted"
+        },
+        "escalation_reason": {
+          "type": "string",
+          "sensitivity": "restricted"
+        },
+        "internal_decision": {
+          "type": "string",
+          "sensitivity": "restricted"
+        },
+        "created_by": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "follow_up_required": {
+          "type": "boolean",
+          "sensitivity": "medium"
+        },
+        "follow_up_date": {
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium"
+        }
+      }
+    },
+    "compliance_report": {
+      "description": "Compliance, AML, audit, or suspicious activity report.",
+      "default_department": "compliance",
+      "default_sensitivity": "restricted",
+      "required_content_fields": [
+        "customer_name",
+        "compliance_status",
+        "suspicious_activity_flag",
+        "audit_note"
+      ],
+      "optional_content_fields": [
+        "aml_status",
+        "review_result",
+        "reviewed_by",
+        "reviewed_at"
+      ],
+      "content_fields": {
+        "customer_name": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "compliance_status": {
+          "type": "string",
+          "sensitivity": "high",
+          "allowed_values": [
+            "clear",
+            "under_review",
+            "flagged",
+            "escalated"
+          ]
+        },
+        "suspicious_activity_flag": {
+          "type": "boolean",
+          "sensitivity": "restricted"
+        },
+        "audit_note": {
+          "type": "string",
+          "sensitivity": "restricted"
+        },
+        "aml_status": {
+          "type": "string",
+          "sensitivity": "restricted",
+          "allowed_values": [
+            "clear",
+            "under_review",
+            "flagged"
+          ]
+        },
+        "review_result": {
+          "type": "string",
+          "sensitivity": "high",
+          "allowed_values": [
+            "pass",
+            "need_more_review",
+            "fail"
+          ]
+        },
+        "reviewed_by": {
+          "type": "string",
+          "sensitivity": "medium"
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium"
+        }
+      }
+    },
+    "policy_document": {
+      "description": "Internal banking policy or procedure document.",
+      "default_department": "operations",
+      "default_sensitivity": "internal",
+      "required_content_fields": [
+        "policy_title",
+        "effective_date",
+        "policy_content",
+        "department_owner"
+      ],
+      "optional_content_fields": [
+        "policy_version",
+        "review_cycle",
+        "related_document_types"
+      ],
+      "content_fields": {
+        "policy_title": {
+          "type": "string",
+          "sensitivity": "internal"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "internal"
+        },
+        "policy_content": {
+          "type": "string",
+          "sensitivity": "internal"
+        },
+        "department_owner": {
+          "type": "string",
+          "sensitivity": "internal"
+        },
+        "policy_version": {
+          "type": "string",
+          "sensitivity": "internal"
+        },
+        "review_cycle": {
+          "type": "string",
+          "sensitivity": "internal",
+          "allowed_values": [
+            "monthly",
+            "quarterly",
+            "yearly"
+          ]
+        },
+        "related_document_types": {
+          "type": "array<string>",
+          "sensitivity": "internal"
+        }
+      }
+    }
+  },
+  "default_metadata_by_document_type": {
+    "loan_application": {
+      "department": "credit",
+      "document_owner": "credit_department",
+      "sensitivity": "high",
+      "field_policy_ref": "policy_loan_application_v1",
+      "access_tags": [
+        "loan",
+        "credit",
+        "customer_data"
+      ]
+    },
+    "kyc_profile": {
+      "department": "retail",
+      "document_owner": "retail_department",
+      "sensitivity": "high",
+      "field_policy_ref": "policy_kyc_profile_v1",
+      "access_tags": [
+        "kyc",
+        "identity",
+        "customer_data"
+      ]
+    },
+    "credit_report": {
+      "department": "risk",
+      "document_owner": "risk_department",
+      "sensitivity": "high",
+      "field_policy_ref": "policy_credit_report_v1",
+      "access_tags": [
+        "credit_report",
+        "risk",
+        "customer_data"
+      ]
+    },
+    "risk_assessment": {
+      "department": "risk",
+      "document_owner": "risk_department",
+      "sensitivity": "restricted",
+      "field_policy_ref": "policy_risk_assessment_v1",
+      "access_tags": [
+        "risk_assessment",
+        "fraud",
+        "restricted"
+      ]
+    },
+    "internal_note": {
+      "department": "operations",
+      "document_owner": "operations_department",
+      "sensitivity": "restricted",
+      "field_policy_ref": "policy_internal_note_v1",
+      "access_tags": [
+        "internal_note",
+        "operations",
+        "restricted"
+      ]
+    },
+    "compliance_report": {
+      "department": "compliance",
+      "document_owner": "compliance_department",
+      "sensitivity": "restricted",
+      "field_policy_ref": "policy_compliance_report_v1",
+      "access_tags": [
+        "compliance",
+        "audit",
+        "aml",
+        "restricted"
+      ]
+    },
+    "policy_document": {
+      "department": "operations",
+      "document_owner": "operations_department",
+      "sensitivity": "internal",
+      "field_policy_ref": "policy_policy_document_v1",
+      "access_tags": [
+        "policy",
+        "procedure",
+        "internal"
+      ]
+    }
+  },
+  "vector_database_mapping": {
+    "vector_field": "embedding",
+    "text_for_embedding": "embedding_text",
+    "payload_fields": [
+      "document_id",
+      "document_type",
+      "customer_id",
+      "title",
+      "metadata.department",
+      "metadata.sensitivity",
+      "metadata.document_owner",
+      "metadata.allowed_roles",
+      "metadata.allowed_departments",
+      "metadata.branch_id",
+      "metadata.region",
+      "metadata.retention_level",
+      "metadata.field_policy_ref",
+      "metadata.access_tags"
+    ],
+    "filterable_metadata_fields": [
+      "document_type",
+      "customer_id",
+      "metadata.department",
+      "metadata.sensitivity",
+      "metadata.allowed_roles",
+      "metadata.allowed_departments",
+      "metadata.branch_id",
+      "metadata.region",
+      "metadata.access_tags"
+    ],
+    "retrieval_join_key": "document_id",
+    "notes": [
+      "Vector database can store embedding and payload metadata.",
+      "Full document content can be stored in the same document store or retrieved using document_id.",
+      "metadata.allowed_roles is used for document-level access control.",
+      "field_policy is applied after document retrieval and before sending safe context to LLM."
+    ]
+  },
+  "indexing_stage_rules": [
+    "Each document must have a unique document_id.",
+    "Each document must have exactly one document_type.",
+    "Each document must include metadata for filtering.",
+    "Each document must include field_policy or field_policy_ref.",
+    "embedding_text must be generated from content and title.",
+    "embedding can be null before indexing.",
+    "The Retrieval team is responsible for generating actual embedding vectors."
+  ],
+  "query_stage_rules": [
+    "User role must be checked before or during retrieval.",
+    "metadata.allowed_roles must be used to filter documents at document level.",
+    "metadata.department, metadata.sensitivity, metadata.branch_id, and metadata.region can be used for additional metadata filtering.",
+    "After retrieving documents, field_policy must be applied to mask unauthorized fields.",
+    "Only safe masked context can be sent to the LLM.",
+    "Raw content must not be sent directly to the LLM."
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "VR_001",
+      "description": "document_id must be unique across all documents.",
+      "severity": "error"
+    },
+    {
+      "rule_id": "VR_002",
+      "description": "document_type must be one of the allowed document types.",
+      "severity": "error"
+    },
+    {
+      "rule_id": "VR_003",
+      "description": "metadata.allowed_roles must contain valid role_id values from roles.json.",
+      "severity": "error"
+    },
+    {
+      "rule_id": "VR_004",
+      "description": "metadata.sensitivity must be one of public, internal, medium, high, restricted.",
+      "severity": "error"
+    },
+    {
+      "rule_id": "VR_005",
+      "description": "field_policy values must contain valid role_id values from roles.json.",
+      "severity": "error"
+    },
+    {
+      "rule_id": "VR_006",
+      "description": "Every field in content should either appear in field_policy or follow unknown_field_action = mask.",
+      "severity": "warning"
+    },
+    {
+      "rule_id": "VR_007",
+      "description": "embedding_text must not be empty.",
+      "severity": "error"
+    },
+    {
+      "rule_id": "VR_008",
+      "description": "embedding can be null before vector indexing.",
+      "severity": "info"
+    }
+  ],
+  "example_document": {
+    "document_id": "loan_001",
+    "document_type": "loan_application",
+    "customer_id": "C10001",
+    "title": "Loan application of customer C10001",
+    "source": {
+      "source_type": "business_document",
+      "source_name": "loan_system",
+      "original_format": "json",
+      "created_at": "2026-05-01",
+      "updated_at": "2026-05-10"
+    },
+    "content": {
+      "customer_name": "Nguyen Van A",
+      "loan_amount": 500000000,
+      "loan_purpose": "home renovation",
+      "income": 30000000,
+      "employment_status": "full_time",
+      "kyc_status": "verified",
+      "requested_term_months": 60,
+      "collateral_type": "house",
+      "application_status": "under_review",
+      "credit_score": 720,
+      "risk_note": "Customer has late payment history."
+    },
+    "metadata": {
+      "department": "credit",
+      "sensitivity": "high",
+      "document_owner": "credit_department",
+      "allowed_roles": [
+        "loan_officer",
+        "risk_analyst",
+        "branch_manager"
+      ],
+      "allowed_departments": [
+        "credit",
+        "risk",
+        "management"
+      ],
+      "branch_id": "BR_001",
+      "region": "HCM",
+      "retention_level": "standard",
+      "field_policy_ref": "policy_loan_application_v1",
+      "access_tags": [
+        "loan",
+        "credit",
+        "customer_data"
+      ]
+    },
+    "field_policy": {
+      "customer_name": [
+        "teller",
+        "loan_officer",
+        "risk_analyst",
+        "compliance_officer",
+        "branch_manager"
+      ],
+      "loan_amount": [
+        "loan_officer",
+        "risk_analyst",
+        "branch_manager"
+      ],
+      "loan_purpose": [
+        "loan_officer",
+        "risk_analyst",
+        "branch_manager"
+      ],
+      "income": [
+        "loan_officer",
+        "risk_analyst"
+      ],
+      "employment_status": [
+        "loan_officer",
+        "risk_analyst"
+      ],
+      "kyc_status": [
+        "teller",
+        "loan_officer",
+        "risk_analyst",
+        "compliance_officer",
+        "branch_manager"
+      ],
+      "requested_term_months": [
+        "loan_officer",
+        "risk_analyst",
+        "branch_manager"
+      ],
+      "collateral_type": [
+        "loan_officer",
+        "risk_analyst"
+      ],
+      "application_status": [
+        "loan_officer",
+        "risk_analyst",
+        "branch_manager"
+      ],
+      "credit_score": [
+        "risk_analyst"
+      ],
+      "risk_note": [
+        "risk_analyst"
+      ]
+    },
+    "embedding_text": "Customer C10001 submitted a loan application for home renovation. The requested loan amount is 500000000 VND. KYC status is verified and the application is under review.",
+    "embedding": null
+  }
+} 

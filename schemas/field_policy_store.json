@@ -1,0 +1,403 @@
+{
+  "schema_name": "banking_secure_rag_field_policy_store",
+  "version": "1.0",
+  "description": "Field-level access control policies for Banking Secure RAG dataset. Each policy defines which roles can view each field in a specific document type. Unauthorized fields must be masked before being passed to the LLM.",
+  "case_study": "Banking RAG Assistant for Loan and KYC Document Retrieval",
+  "global_policy_rules": {
+    "default_action": "mask",
+    "mask_token": "[MASKED]",
+    "unknown_field_action": "mask",
+    "policy_application_stage": "after_document_retrieval_before_llm_context",
+    "rules": [
+      "If the user role is included in field_policy[field_name], the field can be shown.",
+      "If the user role is not included in field_policy[field_name], the field must be replaced with [MASKED].",
+      "If a field is not defined in field_policy, the system must apply unknown_field_action.",
+      "Raw content must not be sent to the LLM before field-level masking is applied.",
+      "Document-level filtering must be applied before field-level masking."
+    ]
+  },
+  "roles": [
+    "teller",
+    "loan_officer",
+    "risk_analyst",
+    "compliance_officer",
+    "branch_manager",
+    "admin"
+  ],
+  "policies": [
+    {
+      "policy_id": "policy_loan_application_v1",
+      "document_type": "loan_application",
+      "description": "Field-level policy for customer loan application documents.",
+      "default_action": "mask",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "customer_name": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "loan_amount": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "loan_purpose": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "income": [
+          "loan_officer",
+          "risk_analyst"
+        ],
+        "employment_status": [
+          "loan_officer",
+          "risk_analyst"
+        ],
+        "kyc_status": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "requested_term_months": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "collateral_type": [
+          "loan_officer",
+          "risk_analyst"
+        ],
+        "application_status": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "credit_score": [
+          "risk_analyst"
+        ],
+        "risk_note": [
+          "risk_analyst"
+        ]
+      },
+      "security_note": "Loan Officer can view loan and income information but cannot view credit_score or risk_note. Risk Analyst can view risk-related fields."
+    },
+    {
+      "policy_id": "policy_kyc_profile_v1",
+      "document_type": "kyc_profile",
+      "description": "Field-level policy for KYC profile documents.",
+      "default_action": "mask",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "customer_name": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "national_id_masked": [
+          "teller",
+          "loan_officer",
+          "compliance_officer"
+        ],
+        "date_of_birth": [
+          "loan_officer",
+          "compliance_officer"
+        ],
+        "address": [
+          "loan_officer",
+          "compliance_officer"
+        ],
+        "kyc_status": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "phone_masked": [
+          "teller",
+          "loan_officer",
+          "compliance_officer"
+        ],
+        "email_masked": [
+          "loan_officer",
+          "compliance_officer"
+        ],
+        "aml_status": [
+          "compliance_officer"
+        ],
+        "last_verified_at": [
+          "teller",
+          "loan_officer",
+          "compliance_officer",
+          "branch_manager"
+        ]
+      },
+      "security_note": "Teller can view basic KYC status but cannot view detailed personal or AML-related fields."
+    },
+    {
+      "policy_id": "policy_credit_report_v1",
+      "document_type": "credit_report",
+      "description": "Field-level policy for credit report documents.",
+      "default_action": "mask",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "customer_name": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "credit_score": [
+          "risk_analyst"
+        ],
+        "debt_ratio": [
+          "loan_officer",
+          "risk_analyst"
+        ],
+        "overdue_count": [
+          "risk_analyst"
+        ],
+        "credit_history_summary": [
+          "risk_analyst"
+        ],
+        "active_loans": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "total_debt": [
+          "risk_analyst"
+        ],
+        "last_report_date": [
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ]
+      },
+      "security_note": "Credit score and detailed credit history are restricted to Risk Analyst. Loan Officer can only view limited credit-related information."
+    },
+    {
+      "policy_id": "policy_risk_assessment_v1",
+      "document_type": "risk_assessment",
+      "description": "Field-level policy for internal risk assessment documents.",
+      "default_action": "mask",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "customer_name": [
+          "risk_analyst"
+        ],
+        "risk_level": [
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "risk_note": [
+          "risk_analyst"
+        ],
+        "fraud_signal": [
+          "risk_analyst",
+          "compliance_officer"
+        ],
+        "analyst_comment": [
+          "risk_analyst"
+        ],
+        "recommended_action": [
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "risk_score": [
+          "risk_analyst"
+        ],
+        "reviewed_by": [
+          "risk_analyst",
+          "compliance_officer"
+        ]
+      },
+      "security_note": "Risk assessment is highly sensitive. Risk Analyst can view full details, Compliance Officer can view fraud-related information, and Branch Manager can only view high-level summary fields."
+    },
+    {
+      "policy_id": "policy_internal_note_v1",
+      "document_type": "internal_note",
+      "description": "Field-level policy for internal operational notes.",
+      "default_action": "mask",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "customer_name": [
+          "risk_analyst",
+          "compliance_officer"
+        ],
+        "staff_note": [
+          "risk_analyst",
+          "compliance_officer"
+        ],
+        "escalation_reason": [
+          "risk_analyst",
+          "compliance_officer"
+        ],
+        "internal_decision": [
+          "risk_analyst"
+        ],
+        "created_by": [
+          "risk_analyst",
+          "compliance_officer",
+          "admin"
+        ],
+        "follow_up_required": [
+          "risk_analyst",
+          "compliance_officer"
+        ],
+        "follow_up_date": [
+          "risk_analyst",
+          "compliance_officer"
+        ]
+      },
+      "security_note": "Internal notes are not visible to Teller, Loan Officer, or Branch Manager. Admin can view metadata-related fields but not raw sensitive customer content by default."
+    },
+    {
+      "policy_id": "policy_compliance_report_v1",
+      "document_type": "compliance_report",
+      "description": "Field-level policy for compliance, AML, and audit reports.",
+      "default_action": "mask",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "customer_name": [
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "compliance_status": [
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "suspicious_activity_flag": [
+          "compliance_officer"
+        ],
+        "audit_note": [
+          "compliance_officer"
+        ],
+        "aml_status": [
+          "compliance_officer"
+        ],
+        "review_result": [
+          "compliance_officer",
+          "branch_manager"
+        ],
+        "reviewed_by": [
+          "compliance_officer",
+          "admin"
+        ],
+        "reviewed_at": [
+          "compliance_officer",
+          "admin"
+        ]
+      },
+      "security_note": "Compliance Officer can view full compliance details. Branch Manager can only view summary-level compliance status. Other business roles are denied or masked."
+    },
+    {
+      "policy_id": "policy_policy_document_v1",
+      "document_type": "policy_document",
+      "description": "Field-level policy for internal banking policy documents.",
+      "default_action": "allow",
+      "mask_token": "[MASKED]",
+      "field_policy": {
+        "policy_title": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "effective_date": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "policy_content": [
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "department_owner": [
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "policy_version": [
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "review_cycle": [
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "related_document_types": [
+          "loan_officer",
+          "risk_analyst",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ]
+      },
+      "security_note": "Policy documents are less sensitive than customer documents. Teller can view basic policy title and effective date, while other roles can view more detailed policy content."
+    }
+  ],
+  "example_masking_cases": [
+    {
+      "case_id": "case_001",
+      "role": "loan_officer",
+      "document_type": "loan_application",
+      "field": "risk_note",
+      "expected_output": "[MASKED]",
+      "reason": "loan_officer is not included in field_policy.risk_note"
+    },
+    {
+      "case_id": "case_002",
+      "role": "risk_analyst",
+      "document_type": "credit_report",
+      "field": "credit_score",
+      "expected_output": "view",
+      "reason": "risk_analyst is included in field_policy.credit_score"
+    },
+    {
+      "case_id": "case_003",
+      "role": "teller",
+      "document_type": "kyc_profile",
+      "field": "kyc_status",
+      "expected_output": "view",
+      "reason": "teller is included in field_policy.kyc_status"
+    },
+    {
+      "case_id": "case_004",
+      "role": "branch_manager",
+      "document_type": "risk_assessment",
+      "field": "risk_note",
+      "expected_output": "[MASKED]",
+      "reason": "branch_manager can view risk_level but cannot view detailed risk_note"
+    },
+    {
+      "case_id": "case_005",
+      "role": "compliance_officer",
+      "document_type": "compliance_report",
+      "field": "audit_note",
+      "expected_output": "view",
+      "reason": "compliance_officer is included in field_policy.audit_note"
+    }
+  ]
+}

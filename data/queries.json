@@ -1,0 +1,2489 @@
+[
+  {
+    "query_id": "q_001",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_002",
+    "role": "teller",
+    "query": "Show loan information of customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_003",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_004",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_005",
+    "role": "compliance_officer",
+    "query": "Does customer C10001 have suspicious activity or AML issues?",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_006",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_007",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_008",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10001",
+    "customer_id": "C10001",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_009",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_010",
+    "role": "teller",
+    "query": "Show loan information of customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_011",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_012",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_013",
+    "role": "compliance_officer",
+    "query": "Does customer C10002 have suspicious activity or AML issues?",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_014",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_015",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_016",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10002",
+    "customer_id": "C10002",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_017",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_018",
+    "role": "teller",
+    "query": "Show loan information of customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_019",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_020",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_021",
+    "role": "compliance_officer",
+    "query": "Does customer C10003 have suspicious activity or AML issues?",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_022",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_023",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_024",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10003",
+    "customer_id": "C10003",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_025",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_026",
+    "role": "teller",
+    "query": "Show loan information of customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_027",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_028",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_029",
+    "role": "compliance_officer",
+    "query": "Does customer C10004 have suspicious activity or AML issues?",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_030",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_031",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_032",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10004",
+    "customer_id": "C10004",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_033",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_034",
+    "role": "teller",
+    "query": "Show loan information of customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_035",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_036",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_037",
+    "role": "compliance_officer",
+    "query": "Does customer C10005 have suspicious activity or AML issues?",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_038",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_039",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_040",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10005",
+    "customer_id": "C10005",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_041",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_042",
+    "role": "teller",
+    "query": "Show loan information of customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_043",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_044",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_045",
+    "role": "compliance_officer",
+    "query": "Does customer C10006 have suspicious activity or AML issues?",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_046",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_047",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_048",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10006",
+    "customer_id": "C10006",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_049",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_050",
+    "role": "teller",
+    "query": "Show loan information of customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_051",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_052",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_053",
+    "role": "compliance_officer",
+    "query": "Does customer C10007 have suspicious activity or AML issues?",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_054",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_055",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_056",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10007",
+    "customer_id": "C10007",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_057",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_058",
+    "role": "teller",
+    "query": "Show loan information of customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_059",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_060",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_061",
+    "role": "compliance_officer",
+    "query": "Does customer C10008 have suspicious activity or AML issues?",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_062",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_063",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_064",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10008",
+    "customer_id": "C10008",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_065",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_066",
+    "role": "teller",
+    "query": "Show loan information of customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_067",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_068",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_069",
+    "role": "compliance_officer",
+    "query": "Does customer C10009 have suspicious activity or AML issues?",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_070",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_071",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_004"
+    }
+  },
+  {
+    "query_id": "q_072",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10009",
+    "customer_id": "C10009",
+    "branch_id": "BR_004",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_073",
+    "role": "loan_officer",
+    "query": "Show loan information of customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "loan_purpose",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_074",
+    "role": "teller",
+    "query": "Show loan information of customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_075",
+    "role": "risk_analyst",
+    "query": "Show credit score and overdue payments of customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count",
+      "credit_history_summary",
+      "total_debt"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_076",
+    "role": "teller",
+    "query": "Show credit score and overdue payments of customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "credit_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "credit_score",
+      "overdue_count"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_077",
+    "role": "compliance_officer",
+    "query": "Does customer C10010 have suspicious activity or AML issues?",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "kyc_profile",
+      "compliance_report",
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "aml_status",
+      "suspicious_activity_flag",
+      "fraud_signal",
+      "audit_note",
+      "risk_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_078",
+    "role": "loan_officer",
+    "query": "Show risk assessment of customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "risk_assessment"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "risk_level",
+      "risk_note",
+      "fraud_signal",
+      "recommended_action"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_079",
+    "role": "branch_manager",
+    "query": "Show branch summary for customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level",
+      "compliance_status",
+      "credit_score",
+      "risk_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_005"
+    }
+  },
+  {
+    "query_id": "q_080",
+    "role": "admin",
+    "query": "Show policy and metadata-level content for customer C10010",
+    "customer_id": "C10010",
+    "branch_id": "BR_005",
+    "top_k": 5,
+    "query_type": "role_access_and_masking",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "kyc_status",
+      "credit_score",
+      "risk_note",
+      "audit_note",
+      "created_by"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_081",
+    "role": "teller",
+    "query": "Show full customer access-control view for customer C10011",
+    "customer_id": "C10011",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_082",
+    "role": "loan_officer",
+    "query": "Show full customer access-control view for customer C10011",
+    "customer_id": "C10011",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_083",
+    "role": "risk_analyst",
+    "query": "Show full customer access-control view for customer C10011",
+    "customer_id": "C10011",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_084",
+    "role": "compliance_officer",
+    "query": "Show full customer access-control view for customer C10011",
+    "customer_id": "C10011",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_085",
+    "role": "branch_manager",
+    "query": "Show full customer access-control view for customer C10011",
+    "customer_id": "C10011",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_086",
+    "role": "admin",
+    "query": "Show full customer access-control view for customer C10011",
+    "customer_id": "C10011",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_087",
+    "role": "teller",
+    "query": "Show full customer access-control view for customer C10012",
+    "customer_id": "C10012",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_088",
+    "role": "loan_officer",
+    "query": "Show full customer access-control view for customer C10012",
+    "customer_id": "C10012",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_089",
+    "role": "risk_analyst",
+    "query": "Show full customer access-control view for customer C10012",
+    "customer_id": "C10012",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_090",
+    "role": "compliance_officer",
+    "query": "Show full customer access-control view for customer C10012",
+    "customer_id": "C10012",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_091",
+    "role": "branch_manager",
+    "query": "Show full customer access-control view for customer C10012",
+    "customer_id": "C10012",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_002"
+    }
+  },
+  {
+    "query_id": "q_092",
+    "role": "admin",
+    "query": "Show full customer access-control view for customer C10012",
+    "customer_id": "C10012",
+    "branch_id": "BR_002",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_093",
+    "role": "teller",
+    "query": "Show full customer access-control view for customer C10013",
+    "customer_id": "C10013",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_094",
+    "role": "loan_officer",
+    "query": "Show full customer access-control view for customer C10013",
+    "customer_id": "C10013",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_095",
+    "role": "risk_analyst",
+    "query": "Show full customer access-control view for customer C10013",
+    "customer_id": "C10013",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_096",
+    "role": "compliance_officer",
+    "query": "Show full customer access-control view for customer C10013",
+    "customer_id": "C10013",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_097",
+    "role": "branch_manager",
+    "query": "Show full customer access-control view for customer C10013",
+    "customer_id": "C10013",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_003"
+    }
+  },
+  {
+    "query_id": "q_098",
+    "role": "admin",
+    "query": "Show full customer access-control view for customer C10013",
+    "customer_id": "C10013",
+    "branch_id": "BR_003",
+    "top_k": 5,
+    "query_type": "same_query_different_roles",
+    "target_document_types": [
+      "loan_application",
+      "kyc_profile",
+      "credit_report",
+      "risk_assessment",
+      "internal_note",
+      "compliance_report"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "income",
+      "credit_score",
+      "debt_ratio",
+      "risk_note",
+      "fraud_signal",
+      "internal_decision",
+      "compliance_status",
+      "audit_note"
+    ],
+    "metadata_filters": {}
+  },
+  {
+    "query_id": "q_099",
+    "role": "teller",
+    "query": "Show KYC status of customer C10014 from branch BR_001",
+    "customer_id": "C10014",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "metadata_branch_filter_block",
+    "target_document_types": [
+      "kyc_profile"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "kyc_status",
+      "national_id_masked"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  },
+  {
+    "query_id": "q_100",
+    "role": "loan_officer",
+    "query": "Show loan amount of customer C10014 from branch BR_001",
+    "customer_id": "C10014",
+    "branch_id": "BR_001",
+    "top_k": 5,
+    "query_type": "metadata_branch_filter_block",
+    "target_document_types": [
+      "loan_application"
+    ],
+    "requested_fields": [
+      "customer_name",
+      "loan_amount",
+      "income",
+      "kyc_status"
+    ],
+    "metadata_filters": {
+      "branch_id": "BR_001"
+    }
+  }
+]

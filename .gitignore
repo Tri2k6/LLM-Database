@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local runtime artifacts
+chroma_db/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Archives and generated bundles
+*.zip
+*.tar
+*.tar.gz
+
+# Streamlit local state
+.streamlit/secrets.toml
+
+# Hugging Face / model caches if created locally
+.cache/
+models/
+ollama_models/

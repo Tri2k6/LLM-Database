@@ -1,0 +1,5314 @@
+[
+  {
+    "query_id": "q_001",
+    "expected_allowed_documents": [
+      "loan_001"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_001",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_002",
+    "expected_allowed_documents": [
+      "loan_001"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_001",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_003",
+    "expected_allowed_documents": [
+      "credit_001"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_001",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_004",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_001"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_005",
+    "expected_allowed_documents": [
+      "kyc_001",
+      "risk_001",
+      "compliance_001"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_001",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_001",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_001",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_006",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_001"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_007",
+    "expected_allowed_documents": [
+      "loan_001",
+      "kyc_001",
+      "credit_001",
+      "risk_001",
+      "compliance_001"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_001",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_001",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_001",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_001",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_001",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_008",
+    "expected_allowed_documents": [
+      "loan_001",
+      "kyc_001",
+      "credit_001",
+      "risk_001",
+      "note_001"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_001",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_001",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_001",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_001",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_001",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_009",
+    "expected_allowed_documents": [
+      "loan_002"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_002",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_010",
+    "expected_allowed_documents": [
+      "loan_002"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_002",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_011",
+    "expected_allowed_documents": [
+      "credit_002"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_002",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_012",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_002"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_013",
+    "expected_allowed_documents": [
+      "kyc_002",
+      "risk_002",
+      "compliance_002"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_002",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_002",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_002",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_014",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_002"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_015",
+    "expected_allowed_documents": [
+      "loan_002",
+      "kyc_002",
+      "credit_002",
+      "risk_002",
+      "compliance_002"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_002",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_002",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_002",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_002",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_002",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_016",
+    "expected_allowed_documents": [
+      "loan_002",
+      "kyc_002",
+      "credit_002",
+      "risk_002",
+      "note_002"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_002",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_002",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_002",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_002",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_002",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_017",
+    "expected_allowed_documents": [
+      "loan_003"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_003",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_018",
+    "expected_allowed_documents": [
+      "loan_003"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_003",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_019",
+    "expected_allowed_documents": [
+      "credit_003"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_003",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_020",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_003"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_021",
+    "expected_allowed_documents": [
+      "kyc_003",
+      "risk_003",
+      "compliance_003"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_003",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_003",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_003",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_022",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_003"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_023",
+    "expected_allowed_documents": [
+      "loan_003",
+      "kyc_003",
+      "credit_003",
+      "risk_003",
+      "compliance_003"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_003",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_003",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_003",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_003",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_003",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_024",
+    "expected_allowed_documents": [
+      "loan_003",
+      "kyc_003",
+      "credit_003",
+      "risk_003",
+      "note_003"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_003",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_003",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_003",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_003",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_003",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_025",
+    "expected_allowed_documents": [
+      "loan_004"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_004",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_026",
+    "expected_allowed_documents": [
+      "loan_004"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_004",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_027",
+    "expected_allowed_documents": [
+      "credit_004"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_004",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_028",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_004"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_029",
+    "expected_allowed_documents": [
+      "kyc_004",
+      "risk_004",
+      "compliance_004"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_004",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_004",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_004",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_030",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_004"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_031",
+    "expected_allowed_documents": [
+      "loan_004",
+      "kyc_004",
+      "credit_004",
+      "risk_004",
+      "compliance_004"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_004",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_004",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_004",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_004",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_004",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_032",
+    "expected_allowed_documents": [
+      "loan_004",
+      "kyc_004",
+      "credit_004",
+      "risk_004",
+      "note_004"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_004",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_004",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_004",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_004",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_004",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_033",
+    "expected_allowed_documents": [
+      "loan_005"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_005",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_034",
+    "expected_allowed_documents": [
+      "loan_005"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_005",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_035",
+    "expected_allowed_documents": [
+      "credit_005"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_005",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_036",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_005"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_037",
+    "expected_allowed_documents": [
+      "kyc_005",
+      "risk_005",
+      "compliance_005"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_005",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_005",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_005",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_038",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_005"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_039",
+    "expected_allowed_documents": [
+      "loan_005",
+      "kyc_005",
+      "credit_005",
+      "risk_005",
+      "compliance_005"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_005",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_005",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_005",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_005",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_005",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_040",
+    "expected_allowed_documents": [
+      "loan_005",
+      "kyc_005",
+      "credit_005",
+      "risk_005",
+      "note_005"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_005",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_005",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_005",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_005",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_005",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_041",
+    "expected_allowed_documents": [
+      "loan_006"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_006",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_042",
+    "expected_allowed_documents": [
+      "loan_006"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_006",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_043",
+    "expected_allowed_documents": [
+      "credit_006"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_006",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_044",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_006"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_045",
+    "expected_allowed_documents": [
+      "kyc_006",
+      "risk_006",
+      "compliance_006"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_006",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_006",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_006",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_046",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_006"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_047",
+    "expected_allowed_documents": [
+      "loan_006",
+      "kyc_006",
+      "credit_006",
+      "risk_006",
+      "compliance_006"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_006",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_006",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_006",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_006",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_006",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_048",
+    "expected_allowed_documents": [
+      "loan_006",
+      "kyc_006",
+      "credit_006",
+      "risk_006",
+      "note_006"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_006",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_006",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_006",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_006",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_006",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_049",
+    "expected_allowed_documents": [
+      "loan_007"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_007",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_050",
+    "expected_allowed_documents": [
+      "loan_007"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_007",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_051",
+    "expected_allowed_documents": [
+      "credit_007"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_007",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_052",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_007"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_053",
+    "expected_allowed_documents": [
+      "kyc_007",
+      "risk_007",
+      "compliance_007"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_007",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_007",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_007",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_054",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_007"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_055",
+    "expected_allowed_documents": [
+      "loan_007",
+      "kyc_007",
+      "credit_007",
+      "risk_007",
+      "compliance_007"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_007",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_007",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_007",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_007",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_007",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_056",
+    "expected_allowed_documents": [
+      "loan_007",
+      "kyc_007",
+      "credit_007",
+      "risk_007",
+      "note_007"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_007",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_007",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_007",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_007",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_007",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_057",
+    "expected_allowed_documents": [
+      "loan_008"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_008",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_058",
+    "expected_allowed_documents": [
+      "loan_008"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_008",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_059",
+    "expected_allowed_documents": [
+      "credit_008"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_008",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_060",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_008"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_061",
+    "expected_allowed_documents": [
+      "kyc_008",
+      "risk_008",
+      "compliance_008"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_008",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_008",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_008",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_062",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_008"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_063",
+    "expected_allowed_documents": [
+      "loan_008",
+      "kyc_008",
+      "credit_008",
+      "risk_008",
+      "compliance_008"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_008",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_008",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_008",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_008",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_008",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_064",
+    "expected_allowed_documents": [
+      "loan_008",
+      "kyc_008",
+      "credit_008",
+      "risk_008",
+      "note_008"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_008",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_008",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_008",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_008",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_008",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_065",
+    "expected_allowed_documents": [
+      "loan_009"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_009",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_066",
+    "expected_allowed_documents": [
+      "loan_009"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_009",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_067",
+    "expected_allowed_documents": [
+      "credit_009"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_009",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_068",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_009"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_069",
+    "expected_allowed_documents": [
+      "kyc_009",
+      "risk_009",
+      "compliance_009"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_009",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_009",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_009",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_070",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_009"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_071",
+    "expected_allowed_documents": [
+      "loan_009",
+      "kyc_009",
+      "credit_009",
+      "risk_009",
+      "compliance_009"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_009",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_009",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_009",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_009",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_009",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_072",
+    "expected_allowed_documents": [
+      "loan_009",
+      "kyc_009",
+      "credit_009",
+      "risk_009",
+      "note_009"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_009",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_009",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_009",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_009",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_009",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_073",
+    "expected_allowed_documents": [
+      "loan_010"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "income",
+      "kyc_status",
+      "loan_amount",
+      "loan_purpose"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_010",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_074",
+    "expected_allowed_documents": [
+      "loan_010"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_010",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_075",
+    "expected_allowed_documents": [
+      "credit_010"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "credit_history_summary",
+      "credit_score",
+      "customer_name",
+      "overdue_count",
+      "total_debt"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "credit_010",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_076",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "credit_010"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_077",
+    "expected_allowed_documents": [
+      "kyc_010",
+      "risk_010",
+      "compliance_010"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "aml_status",
+      "audit_note",
+      "customer_name",
+      "fraud_signal",
+      "suspicious_activity_flag"
+    ],
+    "expected_masked_fields": [
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "kyc_010",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "aml_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_010",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_010",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "aml_status",
+          "suspicious_activity_flag",
+          "audit_note"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_078",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [
+      "risk_010"
+    ],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_079",
+    "expected_allowed_documents": [
+      "loan_010",
+      "kyc_010",
+      "credit_010",
+      "risk_010",
+      "compliance_010"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_level"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_010",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_010",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_010",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_010",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "risk_level"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "compliance_010",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_080",
+    "expected_allowed_documents": [
+      "loan_010",
+      "kyc_010",
+      "credit_010",
+      "risk_010",
+      "note_010"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "created_by"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_010",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "loan_amount",
+          "kyc_status",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_010",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_010",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score"
+        ]
+      },
+      {
+        "document_id": "risk_010",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_010",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "created_by"
+        ],
+        "masked_fields": [
+          "customer_name"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_081",
+    "expected_allowed_documents": [
+      "loan_011",
+      "kyc_011"
+    ],
+    "expected_blocked_documents": [
+      "credit_011",
+      "risk_011",
+      "note_011",
+      "compliance_011"
+    ],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_011",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_011",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_082",
+    "expected_allowed_documents": [
+      "loan_011",
+      "kyc_011",
+      "credit_011"
+    ],
+    "expected_blocked_documents": [
+      "risk_011",
+      "note_011",
+      "compliance_011"
+    ],
+    "expected_visible_fields": [
+      "customer_name",
+      "debt_ratio",
+      "income",
+      "kyc_status",
+      "loan_amount"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_011",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_011",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_011",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "debt_ratio"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_083",
+    "expected_allowed_documents": [
+      "loan_011",
+      "kyc_011",
+      "credit_011",
+      "risk_011",
+      "note_011"
+    ],
+    "expected_blocked_documents": [
+      "compliance_011"
+    ],
+    "expected_visible_fields": [
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "internal_decision",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_011",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "kyc_011",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_011",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_011",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "note_011",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "customer_name",
+          "internal_decision"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_084",
+    "expected_allowed_documents": [
+      "loan_011",
+      "kyc_011",
+      "credit_011",
+      "risk_011",
+      "note_011"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "audit_note",
+      "compliance_status",
+      "customer_name",
+      "fraud_signal",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "income",
+      "internal_decision",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_011",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_011",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_011",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_011",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_011",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "internal_decision"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_085",
+    "expected_allowed_documents": [
+      "loan_011",
+      "kyc_011",
+      "credit_011",
+      "risk_011",
+      "compliance_011"
+    ],
+    "expected_blocked_documents": [
+      "note_011"
+    ],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_011",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_011",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_011",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_011",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ]
+      },
+      {
+        "document_id": "compliance_011",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": [
+          "audit_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_086",
+    "expected_allowed_documents": [
+      "loan_011",
+      "kyc_011",
+      "credit_011",
+      "risk_011",
+      "note_011"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [
+      "audit_note",
+      "compliance_status",
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "internal_decision",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_011",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_011",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_011",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_011",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ]
+      },
+      {
+        "document_id": "note_011",
+        "document_type": "internal_note",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "internal_decision"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_087",
+    "expected_allowed_documents": [
+      "loan_012",
+      "kyc_012"
+    ],
+    "expected_blocked_documents": [
+      "credit_012",
+      "risk_012",
+      "note_012",
+      "compliance_012"
+    ],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_012",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_012",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_088",
+    "expected_allowed_documents": [
+      "loan_012",
+      "kyc_012",
+      "credit_012"
+    ],
+    "expected_blocked_documents": [
+      "risk_012",
+      "note_012",
+      "compliance_012"
+    ],
+    "expected_visible_fields": [
+      "customer_name",
+      "debt_ratio",
+      "income",
+      "kyc_status",
+      "loan_amount"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_012",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_012",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_012",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "debt_ratio"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_089",
+    "expected_allowed_documents": [
+      "loan_012",
+      "kyc_012",
+      "credit_012",
+      "risk_012",
+      "note_012"
+    ],
+    "expected_blocked_documents": [
+      "compliance_012"
+    ],
+    "expected_visible_fields": [
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "internal_decision",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_012",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "kyc_012",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_012",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_012",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "note_012",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "customer_name",
+          "internal_decision"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_090",
+    "expected_allowed_documents": [
+      "loan_012",
+      "kyc_012",
+      "credit_012",
+      "risk_012",
+      "note_012"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "audit_note",
+      "compliance_status",
+      "customer_name",
+      "fraud_signal",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "income",
+      "internal_decision",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_012",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_012",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_012",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_012",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_012",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "internal_decision"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_091",
+    "expected_allowed_documents": [
+      "loan_012",
+      "kyc_012",
+      "credit_012",
+      "risk_012",
+      "compliance_012"
+    ],
+    "expected_blocked_documents": [
+      "note_012"
+    ],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_012",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_012",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_012",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_012",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ]
+      },
+      {
+        "document_id": "compliance_012",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": [
+          "audit_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_092",
+    "expected_allowed_documents": [
+      "loan_012",
+      "kyc_012",
+      "credit_012",
+      "risk_012",
+      "note_012"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [
+      "audit_note",
+      "compliance_status",
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "internal_decision",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_012",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_012",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_012",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_012",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ]
+      },
+      {
+        "document_id": "note_012",
+        "document_type": "internal_note",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "internal_decision"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_093",
+    "expected_allowed_documents": [
+      "loan_013",
+      "kyc_013"
+    ],
+    "expected_blocked_documents": [
+      "credit_013",
+      "risk_013",
+      "note_013",
+      "compliance_013"
+    ],
+    "expected_visible_fields": [
+      "customer_name",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "income",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_013",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_013",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_094",
+    "expected_allowed_documents": [
+      "loan_013",
+      "kyc_013",
+      "credit_013"
+    ],
+    "expected_blocked_documents": [
+      "risk_013",
+      "note_013",
+      "compliance_013"
+    ],
+    "expected_visible_fields": [
+      "customer_name",
+      "debt_ratio",
+      "income",
+      "kyc_status",
+      "loan_amount"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_013",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_013",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_013",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "debt_ratio"
+        ],
+        "masked_fields": [
+          "credit_score"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_095",
+    "expected_allowed_documents": [
+      "loan_013",
+      "kyc_013",
+      "credit_013",
+      "risk_013",
+      "note_013"
+    ],
+    "expected_blocked_documents": [
+      "compliance_013"
+    ],
+    "expected_visible_fields": [
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "internal_decision",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_013",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "kyc_013",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_013",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "risk_013",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "note_013",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "customer_name",
+          "internal_decision"
+        ],
+        "masked_fields": []
+      }
+    ],
+    "expected_behavior": "Return authorized documents and show all requested fields permitted for this role.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_096",
+    "expected_allowed_documents": [
+      "loan_013",
+      "kyc_013",
+      "credit_013",
+      "risk_013",
+      "note_013"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [
+      "audit_note",
+      "compliance_status",
+      "customer_name",
+      "fraud_signal",
+      "kyc_status"
+    ],
+    "expected_masked_fields": [
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "income",
+      "internal_decision",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_013",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_013",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_013",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_013",
+        "document_type": "risk_assessment",
+        "visible_fields": [
+          "fraud_signal"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "note_013",
+        "document_type": "internal_note",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "internal_decision"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_097",
+    "expected_allowed_documents": [
+      "loan_013",
+      "kyc_013",
+      "credit_013",
+      "risk_013",
+      "compliance_013"
+    ],
+    "expected_blocked_documents": [
+      "note_013"
+    ],
+    "expected_visible_fields": [
+      "compliance_status",
+      "customer_name",
+      "kyc_status",
+      "loan_amount"
+    ],
+    "expected_masked_fields": [
+      "audit_note",
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_013",
+        "document_type": "loan_application",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount"
+        ],
+        "masked_fields": [
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_013",
+        "document_type": "kyc_profile",
+        "visible_fields": [
+          "customer_name",
+          "kyc_status"
+        ],
+        "masked_fields": []
+      },
+      {
+        "document_id": "credit_013",
+        "document_type": "credit_report",
+        "visible_fields": [
+          "customer_name"
+        ],
+        "masked_fields": [
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_013",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ]
+      },
+      {
+        "document_id": "compliance_013",
+        "document_type": "compliance_report",
+        "visible_fields": [
+          "customer_name",
+          "compliance_status"
+        ],
+        "masked_fields": [
+          "audit_note"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_098",
+    "expected_allowed_documents": [
+      "loan_013",
+      "kyc_013",
+      "credit_013",
+      "risk_013",
+      "note_013"
+    ],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [
+      "audit_note",
+      "compliance_status",
+      "credit_score",
+      "customer_name",
+      "debt_ratio",
+      "fraud_signal",
+      "income",
+      "internal_decision",
+      "kyc_status",
+      "loan_amount",
+      "risk_note"
+    ],
+    "per_document_field_expectations": [
+      {
+        "document_id": "loan_013",
+        "document_type": "loan_application",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status",
+          "loan_amount",
+          "income",
+          "credit_score",
+          "risk_note"
+        ]
+      },
+      {
+        "document_id": "kyc_013",
+        "document_type": "kyc_profile",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "kyc_status"
+        ]
+      },
+      {
+        "document_id": "credit_013",
+        "document_type": "credit_report",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "credit_score",
+          "debt_ratio"
+        ]
+      },
+      {
+        "document_id": "risk_013",
+        "document_type": "risk_assessment",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "risk_note",
+          "fraud_signal"
+        ]
+      },
+      {
+        "document_id": "note_013",
+        "document_type": "internal_note",
+        "visible_fields": [],
+        "masked_fields": [
+          "customer_name",
+          "internal_decision"
+        ]
+      }
+    ],
+    "expected_behavior": "Return authorized documents after document-level filtering and mask unauthorized fields before LLM context.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_099",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  },
+  {
+    "query_id": "q_100",
+    "expected_allowed_documents": [],
+    "expected_blocked_documents": [],
+    "expected_visible_fields": [],
+    "expected_masked_fields": [],
+    "per_document_field_expectations": [],
+    "expected_behavior": "No document should be returned because document-level access or metadata filtering blocks the candidate documents.",
+    "evaluation_targets": [
+      "Unauthorized Retrieval Rate",
+      "Field Leakage Rate",
+      "Precision@5",
+      "Recall@5",
+      "Answer Safety Rate"
+    ]
+  }
+]

@@ -1,0 +1,692 @@
+{
+  "schema_name": "banking_secure_rag_roles",
+  "version": "1.1",
+  "description": "Role definitions for Banking RAG Assistant with document-level access control and field-level masking. This version is aligned with schema_definition.json, document_types.json, field_policy_store.json, and permission_matrix.md.",
+  "case_study": "Banking RAG Assistant for Loan and KYC Document Retrieval",
+  "roles": [
+    {
+      "role_id": "teller",
+      "display_name": "Teller",
+      "vietnamese_name": "Nhân viên giao dịch",
+      "department": "retail",
+      "role_type": "business_user",
+      "description": "Nhân viên giao dịch tại quầy, thường xử lý các thao tác cơ bản với khách hàng như xác minh danh tính, kiểm tra trạng thái KYC và hỗ trợ thông tin khách hàng ở mức cơ bản.",
+      "main_responsibilities": [
+        "Check basic customer identity information",
+        "View customer KYC verification status",
+        "Support front-desk banking operations",
+        "Answer basic customer service questions"
+      ],
+      "document_access": {
+        "allow": [
+          "kyc_profile"
+        ],
+        "partial": [
+          "loan_application",
+          "policy_document"
+        ],
+        "deny": [
+          "credit_report",
+          "risk_assessment",
+          "internal_note",
+          "compliance_report"
+        ]
+      },
+      "allowed_departments": [
+        "retail",
+        "operations"
+      ],
+      "default_branch_scope": "own_branch_only",
+      "metadata_constraints": {
+        "allowed_sensitivity": [
+          "public",
+          "internal",
+          "medium"
+        ],
+        "blocked_sensitivity": [
+          "high",
+          "restricted"
+        ],
+        "requires_branch_match": true
+      },
+      "field_access_summary": {
+        "view_fields": [
+          "customer_name",
+          "national_id_masked",
+          "phone_masked",
+          "kyc_status",
+          "last_verified_at",
+          "policy_title",
+          "effective_date"
+        ],
+        "masked_fields": [
+          "date_of_birth",
+          "address",
+          "email_masked",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "employment_status",
+          "requested_term_months",
+          "collateral_type",
+          "application_status",
+          "credit_score",
+          "debt_ratio",
+          "overdue_count",
+          "credit_history_summary",
+          "active_loans",
+          "total_debt",
+          "risk_level",
+          "risk_score",
+          "risk_note",
+          "fraud_signal",
+          "analyst_comment",
+          "recommended_action",
+          "staff_note",
+          "escalation_reason",
+          "internal_decision",
+          "follow_up_required",
+          "follow_up_date",
+          "compliance_status",
+          "suspicious_activity_flag",
+          "audit_note",
+          "aml_status",
+          "review_result",
+          "policy_content",
+          "department_owner",
+          "policy_version",
+          "review_cycle",
+          "related_document_types"
+        ]
+      },
+      "example_allowed_queries": [
+        "Show KYC status of customer C12345",
+        "Is customer C12345 verified?",
+        "Show basic customer information for C12345"
+      ],
+      "example_blocked_queries": [
+        "Show credit score of customer C12345",
+        "Show risk note of customer C12345",
+        "Show internal decision about customer C12345"
+      ],
+      "security_note": "Teller can only access basic customer verification information. Financial, credit, risk, internal, and compliance fields must be masked or denied."
+    },
+    {
+      "role_id": "loan_officer",
+      "display_name": "Loan Officer",
+      "vietnamese_name": "Nhân viên tín dụng",
+      "department": "credit",
+      "role_type": "business_user",
+      "description": "Nhân viên tín dụng xử lý hồ sơ vay, cần xem thông tin khoản vay, thu nhập, mục đích vay, trạng thái việc làm và trạng thái KYC để đánh giá hồ sơ ban đầu.",
+      "main_responsibilities": [
+        "Review loan applications",
+        "Check customer income and employment information",
+        "Verify KYC status before loan processing",
+        "Prepare loan recommendation documents"
+      ],
+      "document_access": {
+        "allow": [
+          "loan_application",
+          "kyc_profile"
+        ],
+        "partial": [
+          "credit_report",
+          "policy_document"
+        ],
+        "deny": [
+          "risk_assessment",
+          "internal_note",
+          "compliance_report"
+        ]
+      },
+      "allowed_departments": [
+        "credit",
+        "retail"
+      ],
+      "default_branch_scope": "own_branch_only",
+      "metadata_constraints": {
+        "allowed_sensitivity": [
+          "public",
+          "internal",
+          "medium",
+          "high"
+        ],
+        "blocked_sensitivity": [
+          "restricted"
+        ],
+        "requires_branch_match": true
+      },
+      "field_access_summary": {
+        "view_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "employment_status",
+          "kyc_status",
+          "requested_term_months",
+          "collateral_type",
+          "application_status",
+          "national_id_masked",
+          "date_of_birth",
+          "address",
+          "phone_masked",
+          "email_masked",
+          "debt_ratio",
+          "active_loans",
+          "last_report_date",
+          "policy_title",
+          "effective_date",
+          "policy_content",
+          "department_owner",
+          "policy_version",
+          "related_document_types",
+          "last_verified_at"
+        ],
+        "masked_fields": [
+          "aml_status",
+          "credit_score",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt",
+          "risk_level",
+          "risk_score",
+          "risk_note",
+          "fraud_signal",
+          "analyst_comment",
+          "recommended_action",
+          "staff_note",
+          "escalation_reason",
+          "internal_decision",
+          "follow_up_required",
+          "follow_up_date",
+          "compliance_status",
+          "suspicious_activity_flag",
+          "audit_note",
+          "review_result",
+          "review_cycle"
+        ]
+      },
+      "example_allowed_queries": [
+        "Show loan information of customer C12345",
+        "What is the income of customer C12345?",
+        "What is the loan amount requested by customer C12345?"
+      ],
+      "example_blocked_queries": [
+        "Show the risk note of customer C12345",
+        "Show fraud signal of customer C12345",
+        "Show internal decision about customer C12345"
+      ],
+      "security_note": "Loan Officer can access loan, income, and basic KYC information but cannot access internal risk notes, fraud signals, internal decisions, or compliance investigation details."
+    },
+    {
+      "role_id": "risk_analyst",
+      "display_name": "Risk Analyst",
+      "vietnamese_name": "Nhân viên phân tích rủi ro",
+      "department": "risk",
+      "role_type": "business_user",
+      "description": "Nhân viên phân tích rủi ro tín dụng, cần xem báo cáo tín dụng, điểm tín dụng, mức rủi ro và ghi chú phân tích để đánh giá khả năng trả nợ hoặc nguy cơ gian lận.",
+      "main_responsibilities": [
+        "Analyze credit risk",
+        "Review customer credit score",
+        "Review risk assessment documents",
+        "Identify fraud signals and late payment patterns",
+        "Support loan approval or rejection decisions"
+      ],
+      "document_access": {
+        "allow": [
+          "loan_application",
+          "credit_report",
+          "risk_assessment"
+        ],
+        "partial": [
+          "kyc_profile",
+          "internal_note",
+          "policy_document"
+        ],
+        "deny": [
+          "compliance_report"
+        ]
+      },
+      "allowed_departments": [
+        "risk",
+        "credit"
+      ],
+      "default_branch_scope": "cross_branch_if_authorized",
+      "metadata_constraints": {
+        "allowed_sensitivity": [
+          "public",
+          "internal",
+          "medium",
+          "high",
+          "restricted"
+        ],
+        "blocked_sensitivity": [],
+        "requires_branch_match": false
+      },
+      "field_access_summary": {
+        "view_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "employment_status",
+          "kyc_status",
+          "requested_term_months",
+          "collateral_type",
+          "application_status",
+          "credit_score",
+          "debt_ratio",
+          "overdue_count",
+          "credit_history_summary",
+          "active_loans",
+          "total_debt",
+          "last_report_date",
+          "risk_level",
+          "risk_score",
+          "risk_note",
+          "fraud_signal",
+          "analyst_comment",
+          "recommended_action",
+          "reviewed_by",
+          "staff_note",
+          "escalation_reason",
+          "internal_decision",
+          "follow_up_required",
+          "follow_up_date",
+          "policy_title",
+          "effective_date",
+          "policy_content",
+          "department_owner",
+          "policy_version",
+          "related_document_types",
+          "created_by"
+        ],
+        "masked_fields": [
+          "national_id_masked",
+          "date_of_birth",
+          "address",
+          "phone_masked",
+          "email_masked",
+          "aml_status",
+          "compliance_status",
+          "suspicious_activity_flag",
+          "audit_note",
+          "review_result",
+          "reviewed_at",
+          "review_cycle"
+        ]
+      },
+      "example_allowed_queries": [
+        "Show credit score of customer C12345",
+        "Show risk assessment of customer C12345",
+        "Does customer C12345 have any fraud signal?",
+        "What is the debt ratio of customer C12345?"
+      ],
+      "example_blocked_queries": [
+        "Show compliance audit note of customer C12345",
+        "Show suspicious activity investigation result of customer C12345"
+      ],
+      "security_note": "Risk Analyst has broad access to credit and risk-related information but does not automatically access compliance investigation reports or detailed KYC personal identity fields."
+    },
+    {
+      "role_id": "compliance_officer",
+      "display_name": "Compliance Officer",
+      "vietnamese_name": "Nhân viên tuân thủ",
+      "department": "compliance",
+      "role_type": "business_user",
+      "description": "Nhân viên tuân thủ chịu trách nhiệm kiểm tra KYC, AML, audit và các dấu hiệu vi phạm quy định. Role này cần xem tài liệu tuân thủ và một phần thông tin rủi ro nhưng không nhất thiết được xem toàn bộ dữ liệu tài chính.",
+      "main_responsibilities": [
+        "Review KYC compliance status",
+        "Check AML-related information",
+        "Review compliance reports",
+        "Audit suspicious activity flags",
+        "Ensure regulatory compliance"
+      ],
+      "document_access": {
+        "allow": [
+          "kyc_profile",
+          "compliance_report",
+          "policy_document"
+        ],
+        "partial": [
+          "loan_application",
+          "credit_report",
+          "risk_assessment",
+          "internal_note"
+        ],
+        "deny": []
+      },
+      "allowed_departments": [
+        "compliance",
+        "retail",
+        "operations"
+      ],
+      "default_branch_scope": "cross_branch_if_audit_required",
+      "metadata_constraints": {
+        "allowed_sensitivity": [
+          "public",
+          "internal",
+          "medium",
+          "high",
+          "restricted"
+        ],
+        "blocked_sensitivity": [],
+        "requires_branch_match": false
+      },
+      "field_access_summary": {
+        "view_fields": [
+          "customer_name",
+          "national_id_masked",
+          "date_of_birth",
+          "address",
+          "phone_masked",
+          "email_masked",
+          "kyc_status",
+          "aml_status",
+          "last_verified_at",
+          "fraud_signal",
+          "reviewed_by",
+          "staff_note",
+          "escalation_reason",
+          "follow_up_required",
+          "follow_up_date",
+          "compliance_status",
+          "suspicious_activity_flag",
+          "audit_note",
+          "review_result",
+          "reviewed_at",
+          "policy_title",
+          "effective_date",
+          "policy_content",
+          "department_owner",
+          "policy_version",
+          "review_cycle",
+          "related_document_types",
+          "created_by"
+        ],
+        "masked_fields": [
+          "loan_amount",
+          "loan_purpose",
+          "income",
+          "employment_status",
+          "requested_term_months",
+          "collateral_type",
+          "application_status",
+          "credit_score",
+          "debt_ratio",
+          "overdue_count",
+          "credit_history_summary",
+          "active_loans",
+          "total_debt",
+          "last_report_date",
+          "risk_level",
+          "risk_score",
+          "risk_note",
+          "analyst_comment",
+          "recommended_action",
+          "internal_decision"
+        ]
+      },
+      "example_allowed_queries": [
+        "Show compliance report of customer C12345",
+        "Is customer C12345 KYC verified?",
+        "Does customer C12345 have suspicious activity flag?",
+        "Show AML status of customer C12345"
+      ],
+      "example_blocked_queries": [
+        "Show income of customer C12345",
+        "Show detailed credit score of customer C12345",
+        "Show loan approval internal decision of customer C12345"
+      ],
+      "security_note": "Compliance Officer can access KYC, AML, audit, suspicious activity, and compliance-related fields. Financial and detailed risk fields not needed for compliance should be masked."
+    },
+    {
+      "role_id": "branch_manager",
+      "display_name": "Branch Manager",
+      "vietnamese_name": "Quản lý chi nhánh",
+      "department": "management",
+      "role_type": "manager",
+      "description": "Quản lý chi nhánh cần xem thông tin tổng quan về khách hàng, khoản vay và tình trạng xử lý tại chi nhánh. Role này có quyền rộng hơn teller nhưng không được xem toàn bộ chi tiết rủi ro hoặc ghi chú nội bộ nhạy cảm.",
+      "main_responsibilities": [
+        "Monitor branch-level customer activities",
+        "Review loan summaries within own branch",
+        "Check high-level risk and compliance status",
+        "Support operational decision making"
+      ],
+      "document_access": {
+        "allow": [],
+        "partial": [
+          "loan_application",
+          "kyc_profile",
+          "credit_report",
+          "risk_assessment",
+          "compliance_report",
+          "policy_document"
+        ],
+        "deny": [
+          "internal_note"
+        ]
+      },
+      "allowed_departments": [
+        "retail",
+        "credit",
+        "risk",
+        "compliance",
+        "operations",
+        "management"
+      ],
+      "default_branch_scope": "own_branch_only",
+      "metadata_constraints": {
+        "allowed_sensitivity": [
+          "public",
+          "internal",
+          "medium",
+          "high"
+        ],
+        "blocked_sensitivity": [
+          "restricted"
+        ],
+        "requires_branch_match": true
+      },
+      "field_access_summary": {
+        "view_fields": [
+          "customer_name",
+          "loan_amount",
+          "loan_purpose",
+          "kyc_status",
+          "last_verified_at",
+          "requested_term_months",
+          "application_status",
+          "active_loans",
+          "last_report_date",
+          "risk_level",
+          "recommended_action",
+          "compliance_status",
+          "review_result",
+          "policy_title",
+          "effective_date",
+          "policy_content",
+          "department_owner",
+          "policy_version",
+          "review_cycle",
+          "related_document_types"
+        ],
+        "masked_fields": [
+          "national_id_masked",
+          "date_of_birth",
+          "address",
+          "phone_masked",
+          "email_masked",
+          "aml_status",
+          "income",
+          "employment_status",
+          "collateral_type",
+          "credit_score",
+          "debt_ratio",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt",
+          "risk_score",
+          "risk_note",
+          "fraud_signal",
+          "analyst_comment",
+          "staff_note",
+          "escalation_reason",
+          "internal_decision",
+          "follow_up_required",
+          "follow_up_date",
+          "suspicious_activity_flag",
+          "audit_note",
+          "reviewed_by",
+          "reviewed_at"
+        ]
+      },
+      "example_allowed_queries": [
+        "Show summary of customer C12345 in branch BR_001",
+        "Show loan amount of customer C12345",
+        "Show KYC status of customer C12345",
+        "Show risk level summary of customer C12345"
+      ],
+      "example_blocked_queries": [
+        "Show detailed risk note of customer C12345",
+        "Show internal staff note about customer C12345",
+        "Show fraud investigation detail of customer C12345"
+      ],
+      "security_note": "Branch Manager can view summary-level information within their branch, but detailed sensitive fields such as income, credit score, risk note, fraud signal, audit note, and internal decisions must be masked."
+    },
+    {
+      "role_id": "admin",
+      "display_name": "Admin",
+      "vietnamese_name": "Quản trị hệ thống",
+      "department": "it_security",
+      "role_type": "system_admin",
+      "description": "Quản trị viên hệ thống chịu trách nhiệm quản lý schema, metadata, index, policy và cấu hình hệ thống. Trong mô hình zero-trust, admin không mặc định được xem toàn bộ nội dung khách hàng nếu không có policy nghiệp vụ cho phép.",
+      "main_responsibilities": [
+        "Manage schema definitions",
+        "Manage metadata store",
+        "Manage field policy store",
+        "Manage vector index configuration",
+        "Audit access control configuration",
+        "Maintain system availability"
+      ],
+      "document_access": {
+        "allow": [
+          "policy_document"
+        ],
+        "partial": [
+          "loan_application",
+          "kyc_profile",
+          "credit_report",
+          "risk_assessment",
+          "internal_note",
+          "compliance_report"
+        ],
+        "deny": []
+      },
+      "allowed_departments": [
+        "it_security",
+        "operations"
+      ],
+      "default_branch_scope": "all_branches_for_system_metadata_only",
+      "metadata_constraints": {
+        "allowed_sensitivity": [
+          "public",
+          "internal",
+          "medium",
+          "high",
+          "restricted"
+        ],
+        "blocked_sensitivity": [],
+        "requires_branch_match": false
+      },
+      "field_access_summary": {
+        "view_fields": [
+          "document_id",
+          "document_type",
+          "title",
+          "source",
+          "metadata",
+          "field_policy",
+          "embedding_text",
+          "policy_title",
+          "effective_date",
+          "policy_content",
+          "department_owner",
+          "policy_version",
+          "review_cycle",
+          "related_document_types",
+          "created_by",
+          "reviewed_by",
+          "reviewed_at"
+        ],
+        "masked_fields": [
+          "customer_name",
+          "national_id_masked",
+          "date_of_birth",
+          "address",
+          "phone_masked",
+          "email_masked",
+          "income",
+          "loan_amount",
+          "loan_purpose",
+          "credit_score",
+          "debt_ratio",
+          "overdue_count",
+          "credit_history_summary",
+          "total_debt",
+          "risk_level",
+          "risk_score",
+          "risk_note",
+          "fraud_signal",
+          "analyst_comment",
+          "recommended_action",
+          "staff_note",
+          "escalation_reason",
+          "internal_decision",
+          "follow_up_required",
+          "follow_up_date",
+          "compliance_status",
+          "suspicious_activity_flag",
+          "audit_note",
+          "aml_status",
+          "review_result"
+        ]
+      },
+      "example_allowed_queries": [
+        "Show metadata configuration of document loan_001",
+        "Show field policy for loan_application documents",
+        "Show documents with missing metadata",
+        "Show policy document for credit department"
+      ],
+      "example_blocked_queries": [
+        "Show raw personal information of customer C12345",
+        "Show unmasked income of customer C12345",
+        "Show unmasked national ID of customer C12345"
+      ],
+      "security_note": "Admin manages system configuration and policies. Admin access to customer-sensitive content should still be restricted unless explicitly granted by business policy."
+    }
+  ],
+  "global_access_rules": {
+    "document_level_rule": "A role can retrieve a document only if the role is included in metadata.allowed_roles.",
+    "partial_access_rule": "For dataset generation, metadata.allowed_roles should include both full_access_roles and partial_access_roles from document_types.json. Partial roles are allowed to retrieve the document but unauthorized fields must be masked.",
+    "denied_access_rule": "If a role is listed in denied_roles for a document type, documents of that type should not include that role in metadata.allowed_roles.",
+    "field_level_rule": "A role can view a field only if the role is included in the field_policy list for that field.",
+    "default_field_action": "mask",
+    "mask_token": "[MASKED]",
+    "unknown_field_action": "mask",
+    "llm_context_rule": "Raw content must not be sent to the LLM before document-level filtering and field-level masking are applied.",
+    "branch_rule": "If requires_branch_match is true, the user's branch_id must match the document metadata.branch_id.",
+    "sensitivity_rule": "Documents with restricted sensitivity require explicit role permission and should not be exposed through broad access rules.",
+    "admin_rule": "Admin is a system role for managing schema, metadata, policy, and index. Admin does not automatically have permission to view raw customer-sensitive content."
+  },
+  "notes_for_dataset_generator": [
+    "Use the role_id values exactly as written in this file.",
+    "Do not rename roles such as loan_officer into loanOfficer or loan-officer.",
+    "When generating metadata.allowed_roles, combine full_access_roles and partial_access_roles from document_types.json.",
+    "Do not include denied_roles in metadata.allowed_roles.",
+    "Use field_policy_store.json as the source of truth for field-level masking.",
+    "If a field is not listed in field_policy_store.json, apply unknown_field_action = mask.",
+    "Only masked safe context should be passed to the LLM."
+  ]
+}

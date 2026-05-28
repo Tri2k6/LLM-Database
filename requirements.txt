@@ -1,0 +1,11 @@
+# Runtime
+streamlit>=1.35,<2.0
+chromadb>=0.5,<2.0
+sentence-transformers>=3.0,<6.0
+torch>=2.2
+
+# Data and validation
+numpy>=1.24,<3.0
+pandas>=2.0,<3.0
+pydantic>=2.0,<3.0
+requests>=2.31,<3.0

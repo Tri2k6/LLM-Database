@@ -1,0 +1,958 @@
+{
+  "schema_name": "banking_secure_rag_document_types",
+  "version": "1.0",
+  "description": "Document type definitions for Banking Secure RAG dataset. These document types are used to generate synthetic banking documents for Vector NoSQL Database, metadata filtering, document-level access control, and field-level masking.",
+  "case_study": "Banking RAG Assistant for Loan and KYC Document Retrieval",
+  "document_types": [
+    {
+      "document_type": "loan_application",
+      "display_name": "Loan Application",
+      "vietnamese_name": "Hồ sơ đăng ký vay vốn",
+      "description": "Tài liệu mô tả hồ sơ đăng ký vay vốn của khách hàng, bao gồm thông tin khoản vay, mục đích vay, thu nhập, trạng thái việc làm và trạng thái KYC.",
+      "business_purpose": "Dùng để hỗ trợ nhân viên tín dụng xem xét hồ sơ vay và cung cấp context cho RAG khi người dùng hỏi về thông tin khoản vay.",
+      "source_system": "loan_system",
+      "source_type": "business_document",
+      "original_format": "json",
+      "owner_department": "credit",
+      "default_sensitivity": "high",
+      "default_retention_level": "standard",
+      "field_policy_ref": "policy_loan_application_v1",
+      "target_count_for_demo": 100,
+      "document_id_prefix": "loan",
+      "customer_id_required": true,
+      "metadata_defaults": {
+        "department": "credit",
+        "document_owner": "credit_department",
+        "allowed_departments": [
+          "credit",
+          "risk",
+          "management"
+        ],
+        "access_tags": [
+          "loan",
+          "credit",
+          "customer_data",
+          "loan_application"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [
+          "loan_officer",
+          "risk_analyst"
+        ],
+        "partial_access_roles": [
+          "teller",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "denied_roles": []
+      },
+      "required_content_fields": [
+        "customer_name",
+        "loan_amount",
+        "loan_purpose",
+        "income",
+        "employment_status",
+        "kyc_status"
+      ],
+      "optional_content_fields": [
+        "requested_term_months",
+        "collateral_type",
+        "application_status",
+        "credit_score",
+        "risk_note"
+      ],
+      "content_fields": [
+        {
+          "field_name": "customer_name",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tên khách hàng giả lập."
+        },
+        {
+          "field_name": "loan_amount",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Số tiền vay được khách hàng yêu cầu."
+        },
+        {
+          "field_name": "loan_purpose",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Mục đích vay vốn.",
+          "example_values": [
+            "home renovation",
+            "business expansion",
+            "car purchase",
+            "education fee",
+            "personal expense"
+          ]
+        },
+        {
+          "field_name": "income",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Thu nhập hằng tháng của khách hàng."
+        },
+        {
+          "field_name": "employment_status",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tình trạng việc làm của khách hàng.",
+          "example_values": [
+            "full_time",
+            "part_time",
+            "self_employed",
+            "unemployed",
+            "retired"
+          ]
+        },
+        {
+          "field_name": "kyc_status",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Trạng thái xác minh KYC của khách hàng.",
+          "example_values": [
+            "verified",
+            "pending",
+            "rejected",
+            "expired"
+          ]
+        },
+        {
+          "field_name": "requested_term_months",
+          "type": "number",
+          "sensitivity": "medium",
+          "description": "Thời hạn vay được yêu cầu, tính theo tháng."
+        },
+        {
+          "field_name": "collateral_type",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Loại tài sản bảo đảm.",
+          "example_values": [
+            "none",
+            "house",
+            "car",
+            "savings_account",
+            "business_asset"
+          ]
+        },
+        {
+          "field_name": "application_status",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Trạng thái xử lý hồ sơ vay.",
+          "example_values": [
+            "submitted",
+            "under_review",
+            "approved",
+            "rejected"
+          ]
+        },
+        {
+          "field_name": "credit_score",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Điểm tín dụng nếu được đính kèm vào hồ sơ vay."
+        },
+        {
+          "field_name": "risk_note",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Ghi chú rủi ro nội bộ liên quan đến hồ sơ vay."
+        }
+      ],
+      "embedding_text_template": "Customer {customer_id} submitted a loan application for {loan_purpose}. The requested loan amount is {loan_amount} VND. KYC status is {kyc_status} and the application status is {application_status}.",
+      "example_queries": [
+        "Show loan information of customer C10001",
+        "What is the loan amount requested by customer C10001?",
+        "What is the income of customer C10001?",
+        "Show the loan application status of customer C10001"
+      ]
+    },
+    {
+      "document_type": "kyc_profile",
+      "display_name": "KYC Profile",
+      "vietnamese_name": "Hồ sơ định danh khách hàng",
+      "description": "Tài liệu chứa thông tin định danh khách hàng, trạng thái KYC, thông tin liên hệ đã được mask và trạng thái AML nếu có.",
+      "business_purpose": "Dùng để kiểm tra danh tính khách hàng, hỗ trợ teller, loan officer và compliance officer trong quá trình xác minh.",
+      "source_system": "kyc_system",
+      "source_type": "business_document",
+      "original_format": "json",
+      "owner_department": "retail",
+      "default_sensitivity": "high",
+      "default_retention_level": "long_term",
+      "field_policy_ref": "policy_kyc_profile_v1",
+      "target_count_for_demo": 100,
+      "document_id_prefix": "kyc",
+      "customer_id_required": true,
+      "metadata_defaults": {
+        "department": "retail",
+        "document_owner": "retail_department",
+        "allowed_departments": [
+          "retail",
+          "credit",
+          "risk",
+          "compliance",
+          "management"
+        ],
+        "access_tags": [
+          "kyc",
+          "identity",
+          "customer_data",
+          "customer_profile"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [
+          "teller",
+          "loan_officer",
+          "compliance_officer"
+        ],
+        "partial_access_roles": [
+          "risk_analyst",
+          "branch_manager",
+          "admin"
+        ],
+        "denied_roles": []
+      },
+      "required_content_fields": [
+        "customer_name",
+        "national_id_masked",
+        "date_of_birth",
+        "address",
+        "kyc_status"
+      ],
+      "optional_content_fields": [
+        "phone_masked",
+        "email_masked",
+        "aml_status",
+        "last_verified_at"
+      ],
+      "content_fields": [
+        {
+          "field_name": "customer_name",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tên khách hàng giả lập."
+        },
+        {
+          "field_name": "national_id_masked",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Số định danh cá nhân đã được che một phần. Không lưu số định danh thật trong dataset."
+        },
+        {
+          "field_name": "date_of_birth",
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "high",
+          "description": "Ngày sinh của khách hàng."
+        },
+        {
+          "field_name": "address",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Địa chỉ của khách hàng."
+        },
+        {
+          "field_name": "kyc_status",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Trạng thái xác minh KYC.",
+          "example_values": [
+            "verified",
+            "pending",
+            "rejected",
+            "expired"
+          ]
+        },
+        {
+          "field_name": "phone_masked",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Số điện thoại đã được che một phần."
+        },
+        {
+          "field_name": "email_masked",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Email đã được che một phần."
+        },
+        {
+          "field_name": "aml_status",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Trạng thái kiểm tra AML.",
+          "example_values": [
+            "clear",
+            "under_review",
+            "flagged"
+          ]
+        },
+        {
+          "field_name": "last_verified_at",
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium",
+          "description": "Ngày xác minh KYC gần nhất."
+        }
+      ],
+      "embedding_text_template": "Customer {customer_id} has KYC status {kyc_status}. The profile contains masked identity information and customer verification data.",
+      "example_queries": [
+        "Is customer C10001 KYC verified?",
+        "Show KYC status of customer C10001",
+        "Show basic identity information of customer C10001",
+        "Does customer C10001 have AML status flagged?"
+      ]
+    },
+    {
+      "document_type": "credit_report",
+      "display_name": "Credit Report",
+      "vietnamese_name": "Báo cáo tín dụng",
+      "description": "Tài liệu chứa điểm tín dụng, tỷ lệ nợ, số lần quá hạn và lịch sử tín dụng tóm tắt của khách hàng.",
+      "business_purpose": "Dùng để đánh giá khả năng trả nợ và rủi ro tín dụng của khách hàng trong quá trình xét duyệt vay.",
+      "source_system": "credit_bureau_system",
+      "source_type": "internal_report",
+      "original_format": "json",
+      "owner_department": "risk",
+      "default_sensitivity": "high",
+      "default_retention_level": "standard",
+      "field_policy_ref": "policy_credit_report_v1",
+      "target_count_for_demo": 80,
+      "document_id_prefix": "credit",
+      "customer_id_required": true,
+      "metadata_defaults": {
+        "department": "risk",
+        "document_owner": "risk_department",
+        "allowed_departments": [
+          "risk",
+          "credit",
+          "management"
+        ],
+        "access_tags": [
+          "credit_report",
+          "credit_score",
+          "risk",
+          "customer_data"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [
+          "risk_analyst"
+        ],
+        "partial_access_roles": [
+          "loan_officer",
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "denied_roles": [
+          "teller"
+        ]
+      },
+      "required_content_fields": [
+        "customer_name",
+        "credit_score",
+        "debt_ratio",
+        "overdue_count",
+        "credit_history_summary"
+      ],
+      "optional_content_fields": [
+        "active_loans",
+        "total_debt",
+        "last_report_date"
+      ],
+      "content_fields": [
+        {
+          "field_name": "customer_name",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tên khách hàng giả lập."
+        },
+        {
+          "field_name": "credit_score",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Điểm tín dụng giả lập của khách hàng."
+        },
+        {
+          "field_name": "debt_ratio",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Tỷ lệ nợ trên thu nhập."
+        },
+        {
+          "field_name": "overdue_count",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Số lần thanh toán quá hạn."
+        },
+        {
+          "field_name": "credit_history_summary",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Tóm tắt lịch sử tín dụng của khách hàng."
+        },
+        {
+          "field_name": "active_loans",
+          "type": "number",
+          "sensitivity": "medium",
+          "description": "Số khoản vay đang hoạt động."
+        },
+        {
+          "field_name": "total_debt",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Tổng dư nợ hiện tại."
+        },
+        {
+          "field_name": "last_report_date",
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium",
+          "description": "Ngày cập nhật báo cáo tín dụng gần nhất."
+        }
+      ],
+      "embedding_text_template": "Customer {customer_id} has a credit report with credit history summary: {credit_history_summary}. The report includes debt ratio, overdue count, and active loan information.",
+      "example_queries": [
+        "Show credit report of customer C10001",
+        "What is the credit score of customer C10001?",
+        "How many overdue payments does customer C10001 have?",
+        "Show debt ratio of customer C10001"
+      ]
+    },
+    {
+      "document_type": "risk_assessment",
+      "display_name": "Risk Assessment",
+      "vietnamese_name": "Báo cáo đánh giá rủi ro",
+      "description": "Tài liệu nội bộ mô tả mức độ rủi ro, ghi chú rủi ro, tín hiệu gian lận và nhận xét của chuyên viên phân tích.",
+      "business_purpose": "Dùng để hỗ trợ phân tích rủi ro tín dụng, phát hiện gian lận và quyết định xử lý hồ sơ vay.",
+      "source_system": "risk_management_system",
+      "source_type": "internal_report",
+      "original_format": "json",
+      "owner_department": "risk",
+      "default_sensitivity": "restricted",
+      "default_retention_level": "legal_hold",
+      "field_policy_ref": "policy_risk_assessment_v1",
+      "target_count_for_demo": 80,
+      "document_id_prefix": "risk",
+      "customer_id_required": true,
+      "metadata_defaults": {
+        "department": "risk",
+        "document_owner": "risk_department",
+        "allowed_departments": [
+          "risk",
+          "compliance",
+          "management"
+        ],
+        "access_tags": [
+          "risk_assessment",
+          "fraud",
+          "risk_note",
+          "restricted"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [
+          "risk_analyst"
+        ],
+        "partial_access_roles": [
+          "compliance_officer",
+          "branch_manager",
+          "admin"
+        ],
+        "denied_roles": [
+          "teller",
+          "loan_officer"
+        ]
+      },
+      "required_content_fields": [
+        "customer_name",
+        "risk_level",
+        "risk_note",
+        "fraud_signal",
+        "analyst_comment"
+      ],
+      "optional_content_fields": [
+        "recommended_action",
+        "risk_score",
+        "reviewed_by"
+      ],
+      "content_fields": [
+        {
+          "field_name": "customer_name",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tên khách hàng giả lập."
+        },
+        {
+          "field_name": "risk_level",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Mức độ rủi ro tổng quát.",
+          "example_values": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        {
+          "field_name": "risk_note",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Ghi chú rủi ro chi tiết, chỉ role có quyền mới được xem."
+        },
+        {
+          "field_name": "fraud_signal",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Tín hiệu nghi ngờ gian lận.",
+          "example_values": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        {
+          "field_name": "analyst_comment",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Nhận xét nội bộ của chuyên viên phân tích rủi ro."
+        },
+        {
+          "field_name": "recommended_action",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Hành động được khuyến nghị sau khi đánh giá rủi ro.",
+          "example_values": [
+            "approve",
+            "manual_review",
+            "reject",
+            "request_more_documents"
+          ]
+        },
+        {
+          "field_name": "risk_score",
+          "type": "number",
+          "sensitivity": "high",
+          "description": "Điểm rủi ro giả lập."
+        },
+        {
+          "field_name": "reviewed_by",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Mã hoặc tên nhân viên đã đánh giá."
+        }
+      ],
+      "embedding_text_template": "Customer {customer_id} has a risk assessment with risk level {risk_level}. The assessment contains fraud signal and recommended action for internal review.",
+      "example_queries": [
+        "Show risk assessment of customer C10001",
+        "What is the risk level of customer C10001?",
+        "Does customer C10001 have fraud signal?",
+        "Show recommended action for customer C10001"
+      ]
+    },
+    {
+      "document_type": "internal_note",
+      "display_name": "Internal Note",
+      "vietnamese_name": "Ghi chú nội bộ",
+      "description": "Tài liệu ghi chú nội bộ do nhân viên hoặc bộ phận nghiệp vụ tạo ra, thường chứa lý do escalated, quyết định nội bộ hoặc ghi chú xử lý.",
+      "business_purpose": "Dùng để mô phỏng dữ liệu nội bộ nhạy cảm, giúp kiểm thử việc chặn document-level và che field-level trong RAG.",
+      "source_system": "internal_operation_system",
+      "source_type": "internal_report",
+      "original_format": "text",
+      "owner_department": "operations",
+      "default_sensitivity": "restricted",
+      "default_retention_level": "standard",
+      "field_policy_ref": "policy_internal_note_v1",
+      "target_count_for_demo": 60,
+      "document_id_prefix": "note",
+      "customer_id_required": true,
+      "metadata_defaults": {
+        "department": "operations",
+        "document_owner": "operations_department",
+        "allowed_departments": [
+          "operations",
+          "risk",
+          "compliance"
+        ],
+        "access_tags": [
+          "internal_note",
+          "staff_note",
+          "operations",
+          "restricted"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [],
+        "partial_access_roles": [
+          "risk_analyst",
+          "compliance_officer",
+          "admin"
+        ],
+        "denied_roles": [
+          "teller",
+          "loan_officer",
+          "branch_manager"
+        ]
+      },
+      "required_content_fields": [
+        "customer_name",
+        "staff_note",
+        "escalation_reason",
+        "internal_decision"
+      ],
+      "optional_content_fields": [
+        "created_by",
+        "follow_up_required",
+        "follow_up_date"
+      ],
+      "content_fields": [
+        {
+          "field_name": "customer_name",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tên khách hàng giả lập."
+        },
+        {
+          "field_name": "staff_note",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Ghi chú nội bộ của nhân viên."
+        },
+        {
+          "field_name": "escalation_reason",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Lý do hồ sơ bị chuyển lên cấp xử lý cao hơn."
+        },
+        {
+          "field_name": "internal_decision",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Quyết định nội bộ chưa công khai."
+        },
+        {
+          "field_name": "created_by",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Người tạo ghi chú."
+        },
+        {
+          "field_name": "follow_up_required",
+          "type": "boolean",
+          "sensitivity": "medium",
+          "description": "Có cần theo dõi tiếp hay không."
+        },
+        {
+          "field_name": "follow_up_date",
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium",
+          "description": "Ngày cần theo dõi tiếp."
+        }
+      ],
+      "embedding_text_template": "Customer {customer_id} has an internal operational note. The note is related to escalation and follow-up handling.",
+      "example_queries": [
+        "Show internal note of customer C10001",
+        "Why was customer C10001 escalated?",
+        "Show internal decision about customer C10001",
+        "Does customer C10001 require follow-up?"
+      ]
+    },
+    {
+      "document_type": "compliance_report",
+      "display_name": "Compliance Report",
+      "vietnamese_name": "Báo cáo tuân thủ",
+      "description": "Tài liệu kiểm tra tuân thủ, AML, audit hoặc hoạt động đáng ngờ liên quan đến khách hàng.",
+      "business_purpose": "Dùng để phục vụ nhân viên tuân thủ trong việc kiểm tra KYC, AML, audit và các dấu hiệu vi phạm quy định.",
+      "source_system": "compliance_system",
+      "source_type": "audit_document",
+      "original_format": "json",
+      "owner_department": "compliance",
+      "default_sensitivity": "restricted",
+      "default_retention_level": "legal_hold",
+      "field_policy_ref": "policy_compliance_report_v1",
+      "target_count_for_demo": 50,
+      "document_id_prefix": "compliance",
+      "customer_id_required": true,
+      "metadata_defaults": {
+        "department": "compliance",
+        "document_owner": "compliance_department",
+        "allowed_departments": [
+          "compliance",
+          "risk",
+          "management"
+        ],
+        "access_tags": [
+          "compliance",
+          "audit",
+          "aml",
+          "suspicious_activity",
+          "restricted"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [
+          "compliance_officer"
+        ],
+        "partial_access_roles": [
+          "branch_manager",
+          "admin"
+        ],
+        "denied_roles": [
+          "teller",
+          "loan_officer",
+          "risk_analyst"
+        ]
+      },
+      "required_content_fields": [
+        "customer_name",
+        "compliance_status",
+        "suspicious_activity_flag",
+        "audit_note"
+      ],
+      "optional_content_fields": [
+        "aml_status",
+        "review_result",
+        "reviewed_by",
+        "reviewed_at"
+      ],
+      "content_fields": [
+        {
+          "field_name": "customer_name",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Tên khách hàng giả lập."
+        },
+        {
+          "field_name": "compliance_status",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Trạng thái tuân thủ.",
+          "example_values": [
+            "clear",
+            "under_review",
+            "flagged",
+            "escalated"
+          ]
+        },
+        {
+          "field_name": "suspicious_activity_flag",
+          "type": "boolean",
+          "sensitivity": "restricted",
+          "description": "Cờ đánh dấu hoạt động đáng ngờ."
+        },
+        {
+          "field_name": "audit_note",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Ghi chú audit hoặc kiểm tra tuân thủ."
+        },
+        {
+          "field_name": "aml_status",
+          "type": "string",
+          "sensitivity": "restricted",
+          "description": "Trạng thái kiểm tra AML.",
+          "example_values": [
+            "clear",
+            "under_review",
+            "flagged"
+          ]
+        },
+        {
+          "field_name": "review_result",
+          "type": "string",
+          "sensitivity": "high",
+          "description": "Kết quả kiểm tra tuân thủ.",
+          "example_values": [
+            "pass",
+            "need_more_review",
+            "fail"
+          ]
+        },
+        {
+          "field_name": "reviewed_by",
+          "type": "string",
+          "sensitivity": "medium",
+          "description": "Người thực hiện kiểm tra."
+        },
+        {
+          "field_name": "reviewed_at",
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "medium",
+          "description": "Ngày kiểm tra tuân thủ."
+        }
+      ],
+      "embedding_text_template": "Customer {customer_id} has a compliance report with compliance status {compliance_status}. The report contains AML status and audit review information.",
+      "example_queries": [
+        "Show compliance report of customer C10001",
+        "Does customer C10001 have suspicious activity flag?",
+        "What is the AML status of customer C10001?",
+        "Show audit note of customer C10001"
+      ]
+    },
+    {
+      "document_type": "policy_document",
+      "display_name": "Policy Document",
+      "vietnamese_name": "Tài liệu chính sách nội bộ",
+      "description": "Tài liệu mô tả chính sách nội bộ, quy trình nghiệp vụ hoặc hướng dẫn xử lý liên quan đến tín dụng, KYC, rủi ro và tuân thủ.",
+      "business_purpose": "Dùng để cung cấp context chính sách cho RAG và hỗ trợ các role tra cứu quy định nội bộ.",
+      "source_system": "internal_policy_repository",
+      "source_type": "policy_document",
+      "original_format": "pdf",
+      "owner_department": "operations",
+      "default_sensitivity": "internal",
+      "default_retention_level": "long_term",
+      "field_policy_ref": "policy_policy_document_v1",
+      "target_count_for_demo": 30,
+      "document_id_prefix": "policy",
+      "customer_id_required": false,
+      "metadata_defaults": {
+        "department": "operations",
+        "document_owner": "operations_department",
+        "allowed_departments": [
+          "retail",
+          "credit",
+          "risk",
+          "compliance",
+          "operations",
+          "management",
+          "it_security"
+        ],
+        "access_tags": [
+          "policy",
+          "procedure",
+          "internal",
+          "banking_rule"
+        ]
+      },
+      "document_level_access": {
+        "full_access_roles": [
+          "compliance_officer",
+          "admin"
+        ],
+        "partial_access_roles": [
+          "teller",
+          "loan_officer",
+          "risk_analyst",
+          "branch_manager"
+        ],
+        "denied_roles": []
+      },
+      "required_content_fields": [
+        "policy_title",
+        "effective_date",
+        "policy_content",
+        "department_owner"
+      ],
+      "optional_content_fields": [
+        "policy_version",
+        "review_cycle",
+        "related_document_types"
+      ],
+      "content_fields": [
+        {
+          "field_name": "policy_title",
+          "type": "string",
+          "sensitivity": "internal",
+          "description": "Tiêu đề chính sách."
+        },
+        {
+          "field_name": "effective_date",
+          "type": "string",
+          "format": "YYYY-MM-DD",
+          "sensitivity": "internal",
+          "description": "Ngày chính sách có hiệu lực."
+        },
+        {
+          "field_name": "policy_content",
+          "type": "string",
+          "sensitivity": "internal",
+          "description": "Nội dung chính sách hoặc quy trình nội bộ."
+        },
+        {
+          "field_name": "department_owner",
+          "type": "string",
+          "sensitivity": "internal",
+          "description": "Bộ phận sở hữu chính sách."
+        },
+        {
+          "field_name": "policy_version",
+          "type": "string",
+          "sensitivity": "internal",
+          "description": "Phiên bản chính sách."
+        },
+        {
+          "field_name": "review_cycle",
+          "type": "string",
+          "sensitivity": "internal",
+          "description": "Chu kỳ rà soát chính sách.",
+          "example_values": [
+            "monthly",
+            "quarterly",
+            "yearly"
+          ]
+        },
+        {
+          "field_name": "related_document_types",
+          "type": "array<string>",
+          "sensitivity": "internal",
+          "description": "Các loại document có liên quan đến chính sách này.",
+          "example_values": [
+            "loan_application",
+            "kyc_profile",
+            "credit_report",
+            "risk_assessment",
+            "compliance_report"
+          ]
+        }
+      ],
+      "embedding_text_template": "Policy document titled {policy_title} is owned by {department_owner}. The policy content describes internal banking rules and procedures.",
+      "example_queries": [
+        "Show loan approval policy",
+        "What is the KYC verification policy?",
+        "Show risk assessment procedure",
+        "Which policy applies to compliance reports?"
+      ]
+    }
+  ],
+  "generation_summary": {
+    "recommended_total_documents": 500,
+    "minimum_total_documents_for_demo": 200,
+    "recommended_distribution": {
+      "loan_application": 100,
+      "kyc_profile": 100,
+      "credit_report": 80,
+      "risk_assessment": 80,
+      "internal_note": 60,
+      "compliance_report": 50,
+      "policy_document": 30
+    },
+    "minimum_distribution": {
+      "loan_application": 50,
+      "kyc_profile": 50,
+      "credit_report": 30,
+      "risk_assessment": 30,
+      "internal_note": 30,
+      "compliance_report": 20,
+      "policy_document": 10
+    }
+  },
+  "notes_for_dataset_generator": [
+    "Each generated document must follow schema_definition.json.",
+    "Each generated document must include metadata, field_policy, embedding_text, and embedding = null.",
+    "Documents with the same customer_id should be related to each other so that RAG retrieval has meaningful context.",
+    "Each customer should have at least one KYC profile and may have loan application, credit report, risk assessment, internal note, or compliance report.",
+    "policy_document does not require customer_id and can use customer_id = null.",
+    "Document-level access is controlled by metadata.allowed_roles.",
+    "Field-level masking is controlled by field_policy_store.json.",
+    "embedding_text should be useful for vector search but should not include raw information that should never be indexed."
+  ]
+}
