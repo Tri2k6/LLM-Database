@@ -1,134 +1,188 @@
 # Banking Secure RAG Vector Search
 
-Demo RAG ngan hang co kiem soat truy cap theo 2 lop:
+Đây là đồ án demo hệ thống RAG cho dữ liệu ngân hàng, tập trung vào truy xuất tài liệu bằng vector search và kiểm soát truy cập theo vai trò người dùng.
 
-- Document-level access control: role nao duoc retrieve tai lieu.
-- Field-level masking: field nao role khong duoc xem se thanh `[MASKED]`.
+Hệ thống có hai lớp bảo vệ chính:
 
-He thong ho tro Local AI qua Ollama de:
+- **Document-level access control**: chỉ truy xuất các tài liệu mà vai trò hiện tại được phép xem.
+- **Field-level masking**: nếu người dùng được xem tài liệu nhưng không được xem một số trường dữ liệu, các trường đó sẽ được thay bằng `[MASKED]`.
 
-- Chuyen cau hoi tieng Viet/Anh thanh structured query.
-- Tong hop ket qua vector search thanh cau tra loi tu nhien bang tieng Viet.
+Ứng dụng cũng hỗ trợ Local AI thông qua Ollama để:
 
-Local AI chi nhan `safe_results` da mask, khong nhan raw content chua qua policy.
+- Chuyển câu hỏi tiếng Việt hoặc tiếng Anh thành truy vấn có cấu trúc.
+- Tổng hợp kết quả truy xuất thành câu trả lời tự nhiên bằng tiếng Việt.
 
-## Project Structure
+Local AI chỉ nhận dữ liệu đã qua bước kiểm soát truy cập và masking (`safe_results`). Dữ liệu gốc chưa qua policy không được gửi trực tiếp cho mô hình.
+
+## Chức năng chính
+
+- Giao diện demo bằng Streamlit.
+- Tìm kiếm tài liệu ngân hàng bằng ChromaDB và embedding model.
+- Lọc tài liệu theo vai trò, khách hàng, chi nhánh, loại tài liệu và mức độ nhạy cảm.
+- Mask các trường dữ liệu không được phép xem theo field policy.
+- Parser fallback theo luật nếu Local AI chưa sẵn sàng.
+- Bộ dữ liệu giả lập, bộ câu hỏi kiểm thử và expected results phục vụ đánh giá đồ án.
+
+## Cấu trúc thư mục
 
 ```text
 .
-├── data/                         # Synthetic demo dataset and evaluation files
-├── docs/                         # Demo guide, dataset notes, permission matrix
-├── schemas/                      # Role, document type, schema, field policy definitions
-├── src/                          # Application source code
-│   ├── app.py                    # Streamlit UI
-│   ├── config.py                 # Paths and constants
-│   ├── indexer.py                # Build ChromaDB vector index
-│   ├── searcher.py               # Vector search + document-level filtering
-│   ├── nl_processor.py           # Deterministic fallback parser
-│   ├── llm_services.py           # Ollama local AI parser/answer generator
-│   └── answer_composer.py        # Masking and deterministic answer fallback
-├── requirements.txt
-├── pyproject.toml
-├── .env.example
+├── data/
+│   ├── documents.json              # Bộ tài liệu ngân hàng giả lập
+│   ├── metadata_store.json         # Metadata tách riêng để filter khi retrieval
+│   ├── queries.json                # Bộ câu hỏi dùng để kiểm thử hệ thống
+│   └── expected_results.json       # Ground truth cho đánh giá retrieval/masking
+├── docs/
+│   ├── assignment.md               # Mô tả nhiệm vụ tạo dataset và bộ test
+│   ├── NLP_DEMO_GUIDE.md           # Hướng dẫn demo xử lý ngôn ngữ tự nhiên
+│   ├── permission_matrix.md        # Ma trận quyền truy cập theo vai trò
+│   ├── README_dataset_definition.md
+│   └── README_data_query_test_expected_result.md
+├── schemas/
+│   ├── schema_definition.json      # Định nghĩa schema tài liệu
+│   ├── document_types.json         # Danh sách loại tài liệu
+│   ├── roles.json                  # Danh sách vai trò người dùng
+│   └── field_policy_store.json     # Chính sách truy cập theo từng trường dữ liệu
+├── src/
+│   ├── __init__.py
+│   ├── app.py                      # Giao diện Streamlit
+│   ├── answer_composer.py          # Masking và tạo câu trả lời fallback
+│   ├── config.py                   # Đường dẫn, hằng số và cấu hình chung
+│   ├── embedder.py                 # Tạo embedding cho văn bản
+│   ├── indexer.py                  # Xây dựng ChromaDB vector index
+│   ├── llm_services.py             # Tích hợp Ollama/OpenAI cho parser và trả lời
+│   ├── nl_processor.py             # Parser rule-based khi không dùng Local AI
+│   ├── searcher.py                 # Vector search và kiểm soát document-level access
+│   └── test_backend.py             # Script kiểm thử backend retrieval
+├── .dockerignore
+├── .env.example                    # Mẫu biến môi trường
 ├── .gitignore
-└── .dockerignore
+├── pyproject.toml
+├── requirements.txt
+└── README.md
 ```
 
-## Setup
+Các thư mục như `.venv/`, `chroma_db/`, `Báo cáo/`, `scripts/` và cache Python là dữ liệu local hoặc artifact sinh ra khi chạy, nên không cần đưa lên GitHub.
+
+## Yêu cầu môi trường
+
+- Python 3.10 trở lên.
+- Pip và virtual environment.
+- Ollama nếu muốn dùng Local AI.
+
+## Cài đặt
+
+Tạo môi trường ảo:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+```
+
+Cài thư viện:
+
+```bash
 pip install -r requirements.txt
 ```
 
-## Optional Local AI
+Nếu cần chỉnh đường dẫn dữ liệu hoặc cấu hình Local AI, tạo file `.env` dựa trên `.env.example`.
 
-Install Ollama, then pull the lightweight Vietnamese-capable model:
-
-```bash
-ollama pull qwen2.5:3b-instruct
-```
-
-The app uses this model by default. To use another local model:
-
-```bash
-export LOCAL_LLM_MODEL="qwen2.5:7b-instruct"
-export LOCAL_QUERY_MODEL="qwen2.5:7b-instruct"
-export LOCAL_ANSWER_MODEL="qwen2.5:7b-instruct"
-```
-
-## Run
+## Chạy ứng dụng
 
 ```bash
 streamlit run src/app.py
 ```
 
-Open:
+Sau đó mở:
 
 ```text
 http://localhost:8501
 ```
 
-The vector index is stored in `chroma_db/` and rebuilt automatically when missing.
+Khi chạy lần đầu, hệ thống sẽ tự xây dựng vector index từ `data/documents.json`. Index được lưu local trong thư mục `chroma_db/`.
 
-## Test
+## Dùng Local AI với Ollama
 
-Run one backend query:
+Cài Ollama, sau đó tải model mặc định:
+
+```bash
+ollama pull qwen2.5:3b-instruct
+```
+
+Các biến môi trường mặc định:
+
+```bash
+LLM_PROVIDER=ollama
+OLLAMA_BASE_URL=http://localhost:11434
+LOCAL_LLM_MODEL=qwen2.5:3b-instruct
+LOCAL_QUERY_MODEL=qwen2.5:3b-instruct
+LOCAL_ANSWER_MODEL=qwen2.5:3b-instruct
+```
+
+Có thể đổi model bằng cách chỉnh `.env` hoặc export biến môi trường trước khi chạy app.
+
+## Kiểm thử backend
+
+Chạy một câu hỏi theo index trong `data/queries.json`:
 
 ```bash
 python src/test_backend.py --idx 0
 ```
 
-Run all predefined queries:
+Chạy toàn bộ bộ câu hỏi:
 
 ```bash
 python src/test_backend.py
 ```
 
-Parser smoke test:
+Kiểm tra nhanh parser rule-based:
 
 ```bash
 python - <<'PY'
 from src.nl_processor import parse_natural_language_query
 
 q = parse_natural_language_query(
-    "Khach C10002 co AML hay hoat dong dang ngo khong?",
+    "Khách C10002 có AML hay hoạt động đáng ngờ không?",
     role="compliance_officer",
 )
 print(q.to_dict())
 PY
 ```
 
-## Demo Prompts
+## Câu hỏi demo
+
+Vai trò `compliance_officer`:
 
 ```text
-Khach C10002 co AML hay hoat dong dang ngo khong?
+Khách C10002 có AML hay hoạt động đáng ngờ không?
 ```
 
-Use role `compliance_officer`.
+Vai trò `risk_analyst`:
 
 ```text
-Khach C10001 co diem tin dung va so lan no qua han nhu the nao?
+Khách C10001 có điểm tín dụng và số lần nợ quá hạn như thế nào?
 ```
 
-Use role `risk_analyst`.
+Vai trò `risk_analyst`:
 
 ```text
-Khach C10004 co muc rui ro cao hay can hanh dong khuyen nghi nao khong?
+Khách C10004 có mức rủi ro cao hay cần hành động khuyến nghị nào không?
 ```
 
-Use role `risk_analyst`.
-
-## Security Notes
-
-This is a seminar/demo implementation. It demonstrates the correct security shape:
+## Luồng xử lý bảo mật
 
 ```text
-retrieve documents
--> check document-level access
--> mask unauthorized fields
--> send only safe_results to Local AI
+Câu hỏi người dùng
+-> parser tạo structured query
+-> vector search trong ChromaDB
+-> lọc document-level access theo role
+-> mask các field không được phép xem
+-> tạo safe_results
+-> Local AI hoặc fallback composer tạo câu trả lời cuối
 ```
 
-For production, do not let users choose role from the UI. Role must come from trusted authentication/session data. Also avoid trusting policy embedded inside untrusted documents; use a trusted policy store or policy service.
+Điểm quan trọng của đồ án là mô hình AI không được nhận dữ liệu thô chưa qua kiểm soát truy cập. Nếu một trường bị cấm theo policy, giá trị thật phải được thay bằng `[MASKED]` trước khi đưa vào câu trả lời hoặc gửi cho Local AI.
+
+## Ghi chú
+
+Đây là hệ thống demo phục vụ seminar/đồ án. Trong môi trường production, role không nên được chọn trực tiếp từ giao diện; role phải đến từ hệ thống xác thực hoặc session đáng tin cậy. Policy truy cập cũng nên được quản lý bởi policy store hoặc policy service đáng tin cậy thay vì phụ thuộc vào dữ liệu không kiểm chứng.
