@@ -28,6 +28,29 @@ def render_structured_query(structured_query: dict):
         st.json(structured_query)
 
 
+def render_retrieved_vectors(results: list[dict]):
+    with st.expander("Retrieved vectors & access", expanded=True):
+        rows = []
+        for index, r in enumerate(results, start=1):
+            meta = r["metadata"]
+            summary = r.get("access_summary", {})
+            rows.append({
+                "Rank": index,
+                "Document ID": r["document_id"],
+                "Type": r["document_type"],
+                "Score": f"{r['score']:.3f}",
+                "Document Access": "✅" if r.get("document_access") else "🔴",
+                "Sensitivity": meta["sensitivity"],
+                "Branch": meta["branch_id"],
+                "Visible Fields": summary.get("visible_fields", 0),
+                "Masked Fields": summary.get("masked_fields", 0),
+                "Visible Field Names": ", ".join(summary.get("visible_field_names", [])),
+                "Masked Field Names": ", ".join(summary.get("masked_field_names", [])),
+            })
+
+        st.dataframe(rows, hide_index=True, use_container_width=True)
+
+
 def render_results(results: list[dict]):
     for r in results:
         with st.expander(
@@ -44,17 +67,19 @@ def render_results(results: list[dict]):
             )
 
             rows = []
-            for field, value in r["content"].items():
+            for field_access in r.get("field_access_table", []):
                 rows.append({
-                    "Field": field,
-                    "Value": str(value),
-                    "Access": "🔴" if value == MASK_TOKEN else "✅",
+                    "Field": field_access["field"],
+                    "Value": str(field_access["value"]),
+                    "Access": "✅" if field_access["allowed"] else "🔴",
+                    "Allowed Roles": ", ".join(field_access["allowed_roles"]),
                 })
 
             st.dataframe(rows, column_config={
                 "Field": st.column_config.TextColumn("Field"),
                 "Value": st.column_config.TextColumn("Value", width="large"),
                 "Access": st.column_config.TextColumn("Access", width="small"),
+                "Allowed Roles": st.column_config.TextColumn("Allowed Roles", width="large"),
             }, hide_index=True, use_container_width=True)
 
 if "index_ready" not in st.session_state:
@@ -107,6 +132,7 @@ for msg in st.session_state.messages:
         if msg.get("structured_query"):
             render_structured_query(msg["structured_query"])
         if msg.get("results"):
+            render_retrieved_vectors(msg["results"])
             render_results(msg["results"])
 
 if prompt := st.chat_input("Ask about banking documents..."):
@@ -232,6 +258,7 @@ if prompt := st.chat_input("Ask about banking documents..."):
         else:
             st.markdown(text)
             render_structured_query(structured_query.to_dict())
+            render_retrieved_vectors(results)
             render_results(results)
 
         st.session_state.messages.append({

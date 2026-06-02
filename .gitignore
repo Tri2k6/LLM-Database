@@ -1,24 +1,41 @@
-# Python
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 *.pyd
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.pyre/
+.tox/
+.nox/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
 
 # Virtual environments
 .venv/
 venv/
 env/
+ENV/
 
-# Local runtime artifacts
+# Local runtime data
 chroma_db/
 *.sqlite
 *.sqlite3
 *.db
+
+# Logs
+logs/
 *.log
 
 # Environment and secrets
@@ -31,16 +48,26 @@ chroma_db/
 Thumbs.db
 .idea/
 .vscode/
+*.swp
+*.swo
 
 # Archives and generated bundles
 *.zip
 *.tar
 *.tar.gz
+*.tgz
+
+# Local report files and conversion helper
+Báo cáo/
+scripts/convert_report_docx_to_tex.py
 
 # Streamlit local state
 .streamlit/secrets.toml
 
-# Hugging Face / model caches if created locally
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local ML/model caches if created inside the repo
 .cache/
 models/
 ollama_models/

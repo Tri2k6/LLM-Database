@@ -1,7 +1,8 @@
 import json
+import shutil
 
 import chromadb
-from chromadb import PersistentClient
+from chromadb.api.shared_system_client import SharedSystemClient
 
 from src.config import (
     CHROMA_DIR,
@@ -14,23 +15,38 @@ from src.embedder import encode
 EXPECTED_COUNT = 500
 
 
+def _reset_chroma_dir():
+    SharedSystemClient.clear_system_cache()
+    if CHROMA_DIR.exists():
+        shutil.rmtree(CHROMA_DIR)
+    CHROMA_DIR.mkdir(parents=True, exist_ok=True)
+    SharedSystemClient.clear_system_cache()
+
+
 def load_documents():
     with open(DOCUMENTS_PATH, encoding="utf-8") as f:
         return json.load(f)
 
 
 def build_index(force: bool = False):
-    CHROMA_DIR.mkdir(parents=True, exist_ok=True)
+    if force:
+        _reset_chroma_dir()
+    else:
+        CHROMA_DIR.mkdir(parents=True, exist_ok=True)
+
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 
     try:
         existing = client.get_collection(COLLECTION_NAME)
-        if not force and existing.count() >= EXPECTED_COUNT:
-            print(f"Index already exists ({existing.count()} docs). Skipping.")
+        existing_count = existing.count()
+        if not force and existing_count >= EXPECTED_COUNT:
+            print(f"Index already exists ({existing_count} docs). Skipping.")
             return existing
         client.delete_collection(COLLECTION_NAME)
-    except Exception:
-        pass
+    except Exception as exc:
+        print(f"Existing Chroma index is unavailable; rebuilding. Reason: {exc}")
+        _reset_chroma_dir()
+        client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 
     collection = client.create_collection(
         name=COLLECTION_NAME,

@@ -37,6 +37,35 @@ def mask_content(
     return safe_content, visible_fields, masked_fields
 
 
+def build_field_access_table(
+    content: dict[str, Any],
+    field_policy: dict[str, list[str]],
+    role: str,
+) -> tuple[list[dict[str, Any]], list[str], list[str]]:
+    rows: list[dict[str, Any]] = []
+    visible_fields: list[str] = []
+    masked_fields: list[str] = []
+
+    for field, value in content.items():
+        allowed_roles = field_policy.get(field, [])
+        allowed = role in allowed_roles
+
+        if allowed:
+            visible_fields.append(field)
+        else:
+            masked_fields.append(field)
+
+        rows.append({
+            "field": field,
+            "value": value if allowed else MASK_TOKEN,
+            "access": "view" if allowed else "mask",
+            "allowed": allowed,
+            "allowed_roles": allowed_roles,
+        })
+
+    return rows, visible_fields, masked_fields
+
+
 def build_safe_results(
     results: list[dict[str, Any]],
     role: str,
@@ -46,6 +75,11 @@ def build_safe_results(
     for result in results:
         content = result.get("content", {})
         field_policy = result.get("field_policy", {})
+        field_access_table, all_visible_fields, all_masked_fields = build_field_access_table(
+            content=content,
+            field_policy=field_policy,
+            role=role,
+        )
         safe_content, visible_fields, masked_fields = mask_content(
             content=content,
             field_policy=field_policy,
@@ -61,6 +95,17 @@ def build_safe_results(
         safe_result["content"] = safe_content
         safe_result["visible_fields"] = visible_fields
         safe_result["masked_fields"] = masked_fields
+        safe_result["field_access_table"] = field_access_table
+        safe_result["document_access"] = role in str(
+            safe_result.get("metadata", {}).get("allowed_roles", "")
+        ).split(",")
+        safe_result["access_summary"] = {
+            "total_fields": len(content),
+            "visible_fields": len(all_visible_fields),
+            "masked_fields": len(all_masked_fields),
+            "visible_field_names": all_visible_fields,
+            "masked_field_names": all_masked_fields,
+        }
         safe_results.append(safe_result)
 
     return safe_results
