@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      DATA_DIR: /app/data
+      SCHEMA_DIR: /app/schemas
+      CHROMA_DIR: /app/chroma_db
+      LLM_PROVIDER: ollama
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      LOCAL_LLM_MODEL: ${LOCAL_LLM_MODEL:-qwen2.5:3b-instruct}
+    volumes:
+      - chroma_data:/app/chroma_db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  chroma_data:

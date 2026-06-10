@@ -62,15 +62,147 @@ Local AI chỉ nhận dữ liệu đã qua bước kiểm soát truy cập và m
 └── README.md
 ```
 
-Các thư mục như `.venv/`, `chroma_db/`, `Báo cáo/`, `scripts/` và cache Python là dữ liệu local hoặc artifact sinh ra khi chạy, nên không cần đưa lên GitHub.
-
 ## Yêu cầu môi trường
 
 - Python 3.10 trở lên.
 - Pip và virtual environment.
 - Ollama nếu muốn dùng Local AI.
+- Docker Desktop hoặc Docker Engine nếu muốn chạy bằng Docker Compose.
+
+## Chuẩn bị push GitHub
+
+Các file/thư mục nên push:
+
+```text
+data/
+docs/
+schemas/
+src/
+scripts/setup.ps1
+scripts/setup.sh
+.dockerignore
+.env.example
+.gitignore
+Dockerfile
+docker-compose.yml
+docker-compose.ollama.yml
+pyproject.toml
+requirements.txt
+README.md
+```
+
+Các file/thư mục không nên push vì là dữ liệu local, cache, runtime artifact hoặc phần báo cáo riêng:
+
+```text
+.venv/
+chroma_db/
+Báo cáo/
+__pycache__/
+.env
+*.sqlite
+*.sqlite3
+*.db
+*.zip
+```
+
+Kiểm tra trước khi commit:
+
+```bash
+git status --short --ignored
+```
+
+Nếu chỉ muốn add phần source/app và các file setup Docker:
+
+```bash
+git add .dockerignore .env.example .gitignore Dockerfile docker-compose.yml docker-compose.ollama.yml README.md pyproject.toml requirements.txt data docs schemas src scripts/setup.ps1 scripts/setup.sh
+```
+
+Nếu lỡ add nhầm dữ liệu runtime, bỏ khỏi staging bằng:
+
+```bash
+git restore --staged .venv chroma_db Báo cáo
+```
 
 ## Cài đặt
+
+### Cài tự động
+
+Windows PowerShell:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\scripts\setup.ps1
+```
+
+Linux/macOS:
+
+```bash
+bash scripts/setup.sh
+```
+
+Các script trên sẽ tạo `.venv`, cài package Python, tạo `.env`, kiểm tra/cài Ollama nếu có thể, tải model `qwen2.5:3b-instruct`, và kiểm tra import cơ bản. Nếu không muốn cài Ollama, dùng:
+
+```powershell
+.\scripts\setup.ps1 -SkipOllama
+```
+
+hoặc:
+
+```bash
+SKIP_OLLAMA=1 bash scripts/setup.sh
+```
+
+### Chạy bằng Docker Compose
+
+Nếu đã cài Docker Desktop hoặc Docker Engine và đã có Ollama chạy trên máy host, dùng:
+
+```bash
+docker compose up --build
+```
+
+Lệnh này chỉ chạy Streamlit app trong Docker và kết nối tới Ollama trên máy host qua `http://host.docker.internal:11434`, nên không pull lại model trong Docker.
+
+Trong lần `--build` đầu tiên, Docker image sẽ tải embedding model `all-MiniLM-L6-v2`. Sau khi app mở, màn hình `Building vector index...` là bước tạo Chroma index từ `data/documents.json`; bước này chỉ chạy khi volume `chroma_data` chưa có index.
+
+Sau đó mở:
+
+```text
+http://localhost:8501
+```
+
+Nếu chưa cài Ollama trên máy host, hoặc muốn Ollama chạy hoàn toàn trong Docker, dùng thêm file compose Ollama:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+```
+
+Compose sẽ dựng các service:
+
+- `app`: Streamlit app.
+- `ollama`: Ollama server.
+- `ollama-pull`: chỉ tải model `qwen2.5:3b-instruct` nếu model chưa tồn tại trong Docker volume.
+
+Đổi model local AI:
+
+```bash
+LOCAL_LLM_MODEL=llama3.2:3b docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+```
+
+Xoá dữ liệu runtime của app để build lại Chroma index:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+Nếu đang dùng Ollama trong Docker, lệnh `down -v` cũng xoá model đã pull trong Docker volume. Không dùng `-v` nếu muốn giữ model:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.ollama.yml down
+docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+```
+
+### Cài thủ công
 
 Tạo môi trường ảo:
 
@@ -100,6 +232,22 @@ http://localhost:8501
 ```
 
 Khi chạy lần đầu, hệ thống sẽ tự xây dựng vector index từ `data/documents.json`. Index được lưu local trong thư mục `chroma_db/`.
+
+## Lỗi thường gặp
+
+Nếu trên Windows gặp lỗi dạng:
+
+```text
+[WinError 32] The process cannot access the file because it is being used by another process: '...\\chroma_db\\chroma.sqlite3'
+```
+
+Nguyên nhân thường là một process Streamlit/Python khác vẫn đang giữ file SQLite của ChromaDB. Hãy tắt các cửa sổ Streamlit/Python đang chạy, xoá thư mục `chroma_db/`, rồi chạy lại:
+
+```bash
+streamlit run src/app.py
+```
+
+Không cần push `chroma_db/` lên GitHub; thư mục này được build lại tự động từ dữ liệu trong `data/`.
 
 ## Dùng Local AI với Ollama
 

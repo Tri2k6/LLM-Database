@@ -1,7 +1,10 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR / "data"))
 SCHEMA_DIR = Path(os.getenv("SCHEMA_DIR", BASE_DIR / "schemas"))

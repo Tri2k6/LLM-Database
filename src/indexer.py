@@ -2,6 +2,7 @@ import json
 import shutil
 
 import chromadb
+from chromadb.errors import NotFoundError
 from chromadb.api.shared_system_client import SharedSystemClient
 
 from src.config import (
@@ -17,8 +18,14 @@ EXPECTED_COUNT = 500
 
 def _reset_chroma_dir():
     SharedSystemClient.clear_system_cache()
-    if CHROMA_DIR.exists():
-        shutil.rmtree(CHROMA_DIR)
+    try:
+        if CHROMA_DIR.exists():
+            shutil.rmtree(CHROMA_DIR)
+    except PermissionError as exc:
+        raise RuntimeError(
+            "Cannot reset ChromaDB because a process is still using it. "
+            "Close Streamlit/Python processes that use chroma_db, then retry."
+        ) from exc
     CHROMA_DIR.mkdir(parents=True, exist_ok=True)
     SharedSystemClient.clear_system_cache()
 
@@ -43,10 +50,14 @@ def build_index(force: bool = False):
             print(f"Index already exists ({existing_count} docs). Skipping.")
             return existing
         client.delete_collection(COLLECTION_NAME)
+    except NotFoundError:
+        pass
     except Exception as exc:
-        print(f"Existing Chroma index is unavailable; rebuilding. Reason: {exc}")
-        _reset_chroma_dir()
-        client = chromadb.PersistentClient(path=str(CHROMA_DIR))
+        raise RuntimeError(
+            "Existing Chroma index is unavailable. Close any running app that "
+            "uses chroma_db, delete the chroma_db folder manually, then run again. "
+            f"Original error: {exc}"
+        ) from exc
 
     collection = client.create_collection(
         name=COLLECTION_NAME,

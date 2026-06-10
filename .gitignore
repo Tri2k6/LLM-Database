@@ -1,4 +1,4 @@
-# Python bytecode and caches
+# Python caches
 __pycache__/
 *.py[cod]
 *$py.class
@@ -15,7 +15,7 @@ __pycache__/
 coverage.xml
 htmlcov/
 
-# Python packaging
+# Build and packaging output
 build/
 dist/
 *.egg-info/
@@ -28,7 +28,7 @@ venv/
 env/
 ENV/
 
-# Local runtime data
+# Runtime data generated locally
 chroma_db/
 *.sqlite
 *.sqlite3
@@ -57,8 +57,10 @@ Thumbs.db
 *.tar.gz
 *.tgz
 
-# Local report files and conversion helper
+# Report workspace belongs to a separate deliverable.
 Báo cáo/
+
+# Report-only conversion helper; remove this line if scripts become part of the app.
 scripts/convert_report_docx_to_tex.py
 
 # Streamlit local state

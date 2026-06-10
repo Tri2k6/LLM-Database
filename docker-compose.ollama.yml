@@ -1,0 +1,42 @@
+services:
+  app:
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+    depends_on:
+      ollama:
+        condition: service_started
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      LOCAL_LLM_MODEL: ${LOCAL_LLM_MODEL:-qwen2.5:3b-instruct}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        until ollama list >/dev/null 2>&1; do
+          sleep 2
+        done
+
+        if ollama list | awk 'NR > 1 {print $$1}' | grep -Fxq "$$LOCAL_LLM_MODEL"; then
+          echo "Model $$LOCAL_LLM_MODEL already exists in Docker volume."
+        else
+          ollama pull "$$LOCAL_LLM_MODEL"
+        fi
+    depends_on:
+      ollama:
+        condition: service_started
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: "no"
+
+volumes:
+  ollama_data:

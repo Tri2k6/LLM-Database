@@ -1,19 +1,25 @@
 .venv/
+venv/
+env/
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 chroma_db/
+Báo cáo/
 .env
 .env.*
 !.env.example
 *.zip
 *.tar
 *.tar.gz
+.cache/
 .git/
 .gitignore
 .DS_Store
 Thumbs.db
 models/
 ollama_models/
+logs/
+*.log
